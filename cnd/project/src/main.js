@@ -1,9 +1,11 @@
-// alert('我是main' + Vue.createApp)
-console.log('Vue', Vue)
+import store from './store/index.js'
+import router from './router/index.js'
+import App from './app.js'
 
-// import { createApp } from 'vue'
-// import App from './App.vue'
-// import router from './router'
-// import store from './store'
+// 创建vue3的实例
+const app = Vue.createApp(App)
+  .use(store) // 挂载vuex
+  .use(router) // 挂载路由
+  .use(ElementPlus) // 加载ElementPlus
+  .mount('#app') // 挂载Vue的app实例
 
-// createApp(App).use(store).use(router).mount('#app')

@@ -11,7 +11,9 @@ vue全家桶 + UI库的加载方式，以及简单的使用方式。
 ## cnd/project
 使用cnd的方式开发项目，同时参考工程化项目的文件夹组织代码文件的尝试
 
-
 # ES6
 ES6 相关的一些演示代码
 
+## ES6/promise
+promise 的简单封装
+在线演示：https://naturefwvue.github.io/nf-vue-cnd/ES6/promise/  

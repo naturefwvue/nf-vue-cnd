@@ -18,10 +18,36 @@
   <div>
     这是一个尝试，看看import的引用方式
   </div>
-  <div id="app"></div>
-  <script>
-    console.log('vue', Vue)
+  <div id="app">
+    <div>
+      <p>
+        路由的简单演示，其实CND方式不太适合用路由，因为组件写起来比较麻烦。<br>
+        <!-- 使用 router-link 组件来导航. -->
+        <!-- 通过传入 `to` 属性指定链接. -->
+        <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+        <router-link to="/">首页</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link to="/demo">产品</router-link>
+      </p>
+      <!-- 路由出口 -->
+      <!-- 路由匹配到的组件将渲染在这里 -->
+      路由入口<br>
+      <router-view></router-view>
+    </div>
+    组件<br>
+    <test str="aaaaa"></test>
+    <hr>
+    vuex状态演示<br>
+    $store - count：{{$store.state.count}}<br>
+    <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
+    <hr>
+
+    {{value}}<br>
+    <el-button @click="click">elemet的按钮</el-button><br>
+    <hr>
+      
+ 
+  <script type="module" src="src/main.js">
+   
   </script>
-  <script type="module" src="src/main.js"></script>
 </body>
 </html>
