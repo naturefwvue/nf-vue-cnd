@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>模拟抖音里的一个模拟分配的方案</title>
+    <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      一百个人，每轮都要随机给另一个人一元钱。<br>
+      <input type="button" value="初始化" @click="init"/><br>
+      <input type="button" value="开始游戏" @click="start"/><br>
+      {{state}}<br>
+      <template v-for="(item, index) in person" :key="index">
+          {{item}} <br>
+      </template>
+      
+    </div>
+ 
+  <script type="text/javascript">
+    // 定义数组
+    const person = Vue.reactive([])
+    // 定义状态
+    const state = Vue.reactive({
+      timer: 0,
+      maxMoney: 0,
+      minMoney: 9999999
+    })
+    // 初始化数据
+    const init = () => {
+      // 清空
+      person.length = 0
+      // 填入初始金额
+      for (let i=0; i<100; i++) {
+        person.push(100)
+      }
+      state.timer = 0,
+      state.maxMoney = 0,
+      state.minMoney = 9999999
+      console.log('初始化完毕：', person)
+    }
+
+    // 开始游戏
+    const start = () => {
+      // 循环次数
+      const count = 40000
+      // 填入初始金额
+      for (let j=0; j<count; j++) { // 循环次数
+        setTimeout(() => {
+          for (let i=0; i<100; i++) { // 每个人给一次钱
+            const sjs = Math.floor(Math.random()*100)
+            // console.log(sjs)
+            // 自己的钱-1，随机数的人+1
+            person[i] -= 1
+            person[sjs] +=1
+            // console.log('人数', i)
+            // 记录
+            if (state.maxMoney < person[i]) {
+              state.maxMoney = person[i]
+            }
+            if (state.minMoney > person[i]) {
+              state.minMoney = person[i]
+            }
+          }
+          state.timer = j
+        },10)
+      }
+      // console.log('初始化完毕：', person)
+    }
+
+    // vue3的对象
+    const vue3Composition = {
+      setup() { // 传说中的setup
+        // 使用外面的定义，分解setup内部的代码
+       
+        return {  // 返回给模板，否则模板访问不到。
+          person,
+          state,
+          start,
+          init
+        }
+      }
+    }
+    // 创建vue3的实例
+    const vm = Vue.createApp(vue3Composition)
+      .mount('#app') // 挂载Vue的app实例
+
+
+  </script>
+</body>
+</html>
+

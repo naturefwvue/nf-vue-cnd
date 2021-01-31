@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>permise的基本使用方法</title>
+  </head>
+  <body>
+    <div id="app">
+      演示一下promise的使用<br>
+      <input type="button" value="单次访问" onclick="submit()"/><br>
+      <input type="button" value="依次访问" onclick="submitStep()"/><br>
+      <input type="button" value="一起访问" onclick="submitMore()"/><br>
+      
+    </div>
+ 
+  <script type="text/javascript">
+    // 定义一个演示用的函数
+    /* 
+    * 假装后后端申请数据
+    */
+    const mySend = (url, data) => {
+      // 接收url 和data，向后端提交
+      console.log('url-data:', url, data)
+      // 定义一个实例
+      const p = new Promise((resolve, reject)=>{
+        // resolve，reject是形式参数，可以是任意写法，如(res, rej)
+        // 默认第一个参数实现的是resolve功能；
+        // 第二个参数实现的是reject功能。
+        setTimeout(() => {
+          console.log("假装访问了一下后端，并且获得了数据。")
+          const data = {
+            name: 'jyk',
+            time: new Date().valueOf()
+          }
+          // 成功了，返回给调用者
+          resolve(data) 
+          console.log('resolve后的代码')
+          // 不同于return, resolve()执行完成后后面的代码还会执行。
+          // 失败的话，调用reject返回给调用者。
+          // 如果 resolve 被调用了，那么 reject 就不会被调用了
+          reject('失败了')
+        }, 500)
+        
+      })
+      return p
+    }
+
+    const mySend2 = (url, data) => {
+      // 接收url 和data，向后端提交
+      console.log('url-data:', url, data)
+      // 定义一个实例
+      const p = new Promise((resolve, reject)=>{
+        // resolve，reject是形式参数，可以是任意写法，如(res, rej)
+        // 默认第一个参数实现的是resolve功能；
+        // 第二个参数实现的是reject功能。
+        console.log("假装访问了一下后端，并且获得了数据。")
+        const data = {
+          name: 'jyk',
+          time: new Date().valueOf()
+        }
+        // 成功了，返回给调用者
+        resolve(data) 
+        console.log('resolve后的代码')
+        // 不同于return, resolve()执行完成后后面的代码还会执行。
+        // 失败的话，调用reject返回给调用者。
+        // 如果 resolve 被调用了，那么 reject 就不会被调用了
+        reject('失败了')
+      })
+      return p
+    }
+
+    // 单次访问演示
+    const submit = () => {
+      mySend('/api/person', {id: 122})
+        .then((data) => {
+          console.log('回调数据：', data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
+    // 依次访问
+    const submitStep = () => {
+      mySend('/api/person1', [1,2,3]).then((data) => {
+        console.log('第一个返回：', data)
+        return mySend('/api/person2', data) // 发起第二次请求
+      }).then((data) => {
+        console.log('第二个返回：', data)
+        return mySend('/api/person3', data) // 发起第三次请求
+      }).then((data) => {
+        console.log('第三个返回：', data)
+        return mySend('/api/person4', data) // 发起第四次请求
+      }).then((data) => {
+        console.log('第四个返回：', data)
+      })
+    }
+
+    // 一起批量访问
+    const submitMore = () => {
+      Promise.all([
+        mySend('/api/person11', [1,2,3]),
+        mySend('/api/person22', [4,5,6]),
+        mySend('/api/person33', [7,8,9])
+      ]).then((data) => {
+        console.log("一起调用，一起返回：")
+        console.log('data:', data)
+        console.log('data11:', data[0])
+        console.log('data22:', data[1])
+        console.log('data33:', data[2])
+      },(msg) => {
+        console.log(msg)
+      })
+    }
+
+  </script>
+</body>
+</html>
+
