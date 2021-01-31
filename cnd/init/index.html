@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CND的方式，安装各种js脚本</title>
+    <!--
+      <script src="js/vue.global.js"></script>
+      <script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
+      <script src="https://unpkg.com/vue-router"></script>
+      <script src="https://unpkg.com/vue@next"></script>
+      <script src="https://unpkg.com/vue-router@next"></script>
+      <script src="https://unpkg.com/vuex@next"></script>
+    -->
+    
+    <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
+    <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
+    <!-- element-plus 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css">
+    <!-- element-plus 引入组件库 -->
+    <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
+    <!-- Ant Design Vue 引入样式 
+    <link rel="stylesheet" href="js/antdv/antd.css">-->
+    <!-- Ant Design Vue 引入组件库 
+    <script src="js/antdv/antd.min.js"></script>-->
+    <!-- Vant 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@next/lib/index.css"/>
+    <!-- Vant 引入组件库 -->
+    <script src="https://cdn.jsdelivr.net/npm/vant@next/lib/vant.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      vuex状态演示<br>
+      $store - count：{{$store.state.count}}<br>
+      $store - myObject：{{$store.state.myObject}}<br>
+      $store - myObject.time：{{$store.state.myObject.time}}<br>
+      setup - count：{{count}}<br>
+      setup - obj ：{{obj}}<br>
+      setup - objTime ：{{objTime}}<br>
+      <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
+      <el-button type="primary" @click="setTime">vuex的 设置属性</el-button><br>
+      <hr>
+
+      数据绑定和UI库的演示<br>
+      {{value}}<br>
+      <!--原生dom-->
+      <input type="button" value="测试" @click="click"/><br>
+      <!--element-plus 的 按钮-->
+      <el-button @click="click">elemet的按钮</el-button><br>
+      <!--Ant Design Vue 的 按钮
+      <a-button type="primary" @click="click">antdv的按钮</a-button><br>-->
+      <!--Vant 的 按钮-->
+      <van-button type="success" @click="click">vant的按钮</van-button><br>
+      <hr>
+
+      路由的演示<br>
+      <div>
+        <p>
+          路由的简单演示，其实CND方式不太适合用路由，因为组件写起来比较麻烦。<br>
+          <!-- 使用 router-link 组件来导航. -->
+          <!-- 通过传入 `to` 属性指定链接. -->
+          <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+          <router-link to="/home">首页</router-link>&nbsp;&nbsp;&nbsp;
+          <router-link to="/product">产品</router-link>
+        </p>
+        <!-- 路由出口 -->
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        路由入口<br>
+        <router-view></router-view>
+      </div>
+    </div>
+ 
+  <script type="text/javascript">
+
+    
+    // =================== 路由的简单使用 ========================================
+    // 1、定义组件
+    const home = { 
+      template: '<div>假装这是首页{{$store.state.myObject.time}}</div>',
+      setup() {
+        // alert('我是首页')
+      }
+    }
+    const product = { 
+      template: '<div>假装这是商品页面{{$store.state.count}}</div>',
+      setup() {
+        // alert('我是商品介绍')
+      }
+    }
+
+    // 2、定义路由
+    const routes = [
+      { path: '/home', component: home },
+      { path: '/product', component: product }
+    ]
+    // 获取路由方式
+    const history = VueRouter.createWebHistory()
+    // 3. 创建 router 实例，vue3需要挂载实例
+    const router = VueRouter.createRouter({
+      history,
+      routes
+    })
+
+    // =================== vuex 的简单使用 =======================
+    const myStore = {
+      state: {
+        count: 0,
+        myObject: {
+          time: '现在的时间'
+        }
+      },
+      getters: {
+        getCount: (state) => {
+          return state.count
+        },
+        getMyObject: (state) => {
+          return Vue.readonly(state.myObject)
+        },
+        getTime: (state) => {
+          return state.myObject.time
+        }
+      },
+      mutations: {
+        setCount(state) {
+          state.count++
+        },
+        setTime(state) {
+          state.myObject.time = '现在时间：' + new Date()
+        }
+      }
+    }
+    // 建立vuex的实例，vue3需要挂载实例
+    const myVuex = Vuex.createStore(myStore)
+
+    // =================== vue3的 Composition API 的含义
+    const testManage = () => {
+      const value = Vue.ref('你好，世界')
+      const click = () => {
+        value.value = '好的，收到' + new Date().valueOf()
+      }
+
+      return {
+        value,
+        click
+      }
+    }
+
+    // vue3的对象
+    const vue3Composition = {
+      setup() { // 传说中的setup
+        // 使用外面的定义，分解setup内部的代码
+        const { value, click } = testManage()
+        
+        const store = Vuex.useStore()
+        console.log(store)
+        const setCount = () =>{
+          store.commit('setCount')
+        }
+
+        const setTime = () =>{
+          store.commit('setTime')
+          // 测试直接修改
+          // 加上 readonly 就不可修改了，
+          // 但是代码并不会报错
+          setTimeout(() => {
+            obj.time = '222'
+            console.log('setTimeout-obj',obj)
+          },500)
+        }
+
+        // 获取state
+        // const count1 = store.state.count 强烈建议不要直接访问
+        const count = store.getters.getCount
+        const obj = store.getters.getMyObject
+        const objTime = store.getters.getTime
+        console.log('obj', obj)
+        console.log('objTime', objTime)
+
+        return {  // 返回给模板，否则模板访问不到。
+          value,
+          click,
+          setCount,
+          setTime,
+          count,
+          obj,
+          objTime
+        }
+      }
+    }
+    // 创建vue3的实例
+    const vm = Vue.createApp(vue3Composition)
+      .use(myVuex) // 挂载vuex
+      .use(router) // 挂载路由
+      // .use(antd) // 加载 Ant Design Vue 加载的太慢，不要了
+      .use(ElementPlus) // 加载ElementPlus
+      .use(vant) // 加载vant
+      .mount('#app') // 挂载Vue的app实例
+
+  </script>
+</body>
+</html>
+
