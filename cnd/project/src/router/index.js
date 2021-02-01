@@ -1,15 +1,20 @@
-import Home from '../views/home.js'
+// import Home from '../views/home.js?v=2'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/home.js?v=2')
   },
   {
-    path: '/demo',
-    name: 'demo',
-    component: () => import('../views/demo.js')
+    path: '/state',
+    name: 'state',
+    component: () => import('../views/state.js?v=2')
+  },
+  {
+    path: '/component',
+    name: 'component',
+    component: () => import('../views/component.js?v=2')
   }
 ]
 

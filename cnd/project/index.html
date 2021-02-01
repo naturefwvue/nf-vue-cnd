@@ -4,49 +4,52 @@
   <meta charset="UTF-8">
   <link rel="icon" href="public/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cnd的项目，</title>
+  <title>一种怪异的方式</title>
   <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
   <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
   <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
-  <!-- element-plus 引入样式 -->
   <link rel="stylesheet" href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css">
-  <!-- element-plus 引入组件库 -->
   <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
-
+  <style>
+    #app {
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+    }
+    #nav {
+      padding: 30px;
+    }
+    #nav a {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    #nav a.router-link-exact-active {
+      color: #42b983;
+    }
+    </style>
 </head>
 <body>
   <div>
-    这是一个尝试，看看import的引用方式
+    这是一个尝试...
   </div>
   <div id="app">
-    <div>
+    <div id="nav">
       <p>
-        路由的简单演示，其实CND方式不太适合用路由，因为组件写起来比较麻烦。<br>
-        <!-- 使用 router-link 组件来导航. -->
-        <!-- 通过传入 `to` 属性指定链接. -->
-        <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
         <router-link to="/">首页</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link to="/demo">产品</router-link>
+        <router-link to="/state">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link to="/component">查看组件加载</router-link>
       </p>
-      <!-- 路由出口 -->
-      <!-- 路由匹配到的组件将渲染在这里 -->
-      路由入口<br>
       <router-view></router-view>
     </div>
-    组件<br>
-    <test str="aaaaa"></test>
     <hr>
     vuex状态演示<br>
     $store - count：{{$store.state.count}}<br>
     <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
     <hr>
-
-    {{value}}<br>
-    <el-button @click="click">elemet的按钮</el-button><br>
-    <hr>
-      
  
-  <script type="module" src="src/main.js">
+  <script type="module" src="src/main.js?v=2">
    
   </script>
 </body>

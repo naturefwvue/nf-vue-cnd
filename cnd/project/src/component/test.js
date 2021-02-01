@@ -5,7 +5,6 @@ const test = {
         这是 组件测试<br>
         参数：{{str}}-{{str1}}<br>
         setup - count：{{count}}<br>
-        <hr>
     `,
     props: ['str'],
     props: {

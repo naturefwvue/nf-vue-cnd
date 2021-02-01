@@ -1,25 +1,15 @@
 // vue3的对象
 const demo = {
     template: `
-        <h1>这是 demo </h1>
+        <h2>演示一下状态</h2>
         {{value}}
-        setup - count：{{count}}<br>
-        <test><test/>
+        setup 里面的 count：{{count}}<br>
     `,
-    components: {
-      test: import('../component/test.js')
-    },
     setup() { // 传说中的setup
       const store = Vuex.useStore()
-
-      const value = Vue.reactive({
-        name: 'jyk'
-      })
-      
       const count = Vue.computed(() => store.getters.getCount)
 
       return {
-        value,
         count
       }
     }
