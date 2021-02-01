@@ -37,9 +37,9 @@
   <div id="app">
     <div id="nav">
       <p>
-        <router-link to="/">首页</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link to="/state">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link to="/component">查看组件加载</router-link>
+        <router-link :to="{name:'Home'}">首页</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'state'}">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'component'}">查看组件加载</router-link>
       </p>
       <router-view></router-view>
     </div>
@@ -49,8 +49,6 @@
     <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
     <hr>
  
-  <script type="module" src="src/main.js?v=2">
-   
-  </script>
+  <script type="module" src="src/main.js?v=9"></script>
 </body>
 </html>
