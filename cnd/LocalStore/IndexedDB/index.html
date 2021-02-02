@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用Promise封装一下IndexedDB</title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+</head>
+<body>
+  <div>
+    测试功能
+  </div>
+  <div id="app">
+    <hr>
+    IndexedDb的操作演示<br>
+    <input type="button" @click="myOpen" value="打开数据库"/><br>
+    <input type="button" @click="getAll" value="获取全部对象"/><br>
+    <input type="button" @click="add" value="添加对象"/><br>
+    <input type="button" @click="update" value="修改对象"/><br>
+    <input type="button" @click="delObject" value="删除对象"/><br>
+    <input type="button" @click="clear" value="清空仓库"/><br>
+    <input type="button" @click="delStore" value="删除仓库"/><br>
+    <input type="button" @click="delDb" value="删除数据库"/><br>
+    <input type="button" @click="find" value="查询"/><br>
+   
+    <input type="button" @click="myOpen" value="打开数据库"/><br>
+    <div>
+      操作结果：<br>
+      {{re}}
+    </div>
+    <div>
+      全部数据：
+    </div>
+    <div v-for="(item, index) in allObject" :key="index">
+      {{index}}--{{item}}
+    </div>
+    <hr>
+
+  <script type="module">
+    import nfIndexedDB from './nf-indexedDB.js'
+
+    // 演示添加、修改、删除的类
+    const crud = (re, getAll) =>{
+      const {
+        addObject, // 添加对象
+        updateObject,// 修改对象
+        deleteObject,// 删除对象
+        clearStore,// 清空对象仓库
+        deleteStore,// 删除对象仓库
+        deleteDB// 删除整个数据库
+      } = nfIndexedDB()
+
+      // 添加对象
+      const add = () => {
+        addObject('blog',{
+          id: new Date().valueOf(),
+          groupId: 1,
+          title: '这是三个博客',
+          addTime: '2020-10-15',
+          introduction: '这是博客简介',
+          concent: '这是博客的详细内容<br>第二行',
+          viewCount: 1,
+          agreeCount: 1
+        }).then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      // 修改对象
+      const update = () => {
+        updateObject('blog',{
+          id: 2,
+          groupId: 1,
+          title: '这是三个博客33333344455'
+        }).then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      // 删除对象
+      const delObject = () => {
+        deleteObject('blog',1612268580332).then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      // 清空对象
+      const clear = () => {
+        clearStore('blog').then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      // 删除对象仓库
+      const delStore = () => {
+        deleteStore('blog').then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      // 删除数据库
+      const delDb = () => {
+        deleteDB('blog').then((data) => {
+          re.value = data
+          getAll()
+        })
+      }
+
+      return {
+        add, // 添加对象
+        update, // 修改对象
+        delObject, // 删除对象
+        clear, // 清空对象仓库
+        delStore, // 删除对象仓库
+        delDb // 删除整个数据库
+      }
+    }
+    const App = {
+      setup() {
+        // console.log(nfIndexedDB().dbOpen)
+        const {
+          dbOpen,
+          getObject
+        } = nfIndexedDB()
+
+        // 显示仓库里所有的对象
+        const allObject = Vue.ref([])
+        const getAll = () => {
+          getObject('blog').then((data) =>{
+            allObject.value = data
+          })
+        }
+        getAll() // 获取先
+
+        // 显示操作结果的对象
+        const re = Vue.ref(0)
+
+        const {
+          add,
+          update,
+          delObject,
+          clear,
+          delStore,
+          delDb
+        } = crud(re, getAll)
+
+        // 打开数据库，并且初始化
+        const myOpen = () => {
+          dbOpen().then(() =>{
+            getAll()
+          })
+        }
+
+        return {
+          allObject,
+          re,
+          myOpen,
+          getAll,
+          add,
+          update,
+          clear,
+          delObject,
+          delDb
+        }
+         
+      }
+    }
+    const vm = Vue.createApp(App).mount('#app')
+
+  </script>
+</body>
+</html>
