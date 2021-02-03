@@ -1,3 +1,4 @@
+
 // import { isRef, isReactive, toRaw } from 'vue'
 import config from './nf-indexedDB.config.js'
 
@@ -15,8 +16,8 @@ const nfIndexedDB = () => {
    * IndexedDB 数据库对象
    * 判断浏览器是否支持
    * */
-  const myIndexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB
-  if (!myIndexedDB) {
+  const myDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB
+  if (!myDB) {
     console.log('你的浏览器不支持IndexedDB')
   }
 
@@ -41,7 +42,7 @@ const nfIndexedDB = () => {
 
   // ======== 数据库操作 ================
   /**
-  * 打开 indexedDB 数据库。
+  * 打开 indexedDb 数据库。
   * dbName：数据库名称；
   * version：数据库版本。
   * 可以不传值。
@@ -50,7 +51,7 @@ const nfIndexedDB = () => {
     // 创建数据库，并且打开
     const name = config.dbName || dbName
     const ver = config.ver || version
-    const dbRequest = myIndexedDB.open(name, ver)
+    const dbRequest = myDB.open(name, ver)
     // 记录数据库版本是否变更
     let isChange = false
     /* 该域中的数据库myIndex */
@@ -79,8 +80,8 @@ const nfIndexedDB = () => {
     })
 
     // 创建表
-    // 第一次打开成功后或者版本有变化自动执行以下事件，一般用于初始化数据库。
-    dbRequest.onupgradeneeded = (event) => {
+    // 第一次打开成功后或者版本有变化自动执行以下事件：一般用于初始化数据库。
+    dbRequest.onupgradeneeded = function (event) {
       isChange = true
       _db = event.target.result /* 数据库对象 */
       // 建立对象表
@@ -113,9 +114,12 @@ const nfIndexedDB = () => {
     // 定义一个 Promise 的实例
     const objectPromise = new Promise((resolve, reject) => {
       const arrStore = []
-      // 遍历，获取表名集合，便于打开事务
+      // 遍历，获取表名集合
       for (const key in config.objects) {
         arrStore.push(key)
+      }
+      if (config.debug) {
+        console.log('setup - arrStore', arrStore)
       }
       const tranRequest = _db.transaction(arrStore, 'readwrite')
 
@@ -130,9 +134,7 @@ const nfIndexedDB = () => {
             store
               .add(objectArror[i])
               .onsuccess = (event) => {
-                if (config.debug) {
-                  console.log(`添加成功！key:${key}-i:${i}`)
-                }
+                console.log(`添加成功！key:${key}-i:${i}`)
               }
           }
         }
@@ -146,7 +148,7 @@ const nfIndexedDB = () => {
         }
         resolve()
       }
-      tranRequest.onerror = (event) => {
+      tranRequest.onerror = function (event) {
         reject(event)
       }
     })
@@ -168,10 +170,11 @@ const nfIndexedDB = () => {
           .objectStore(storeName) // 获取store
           .delete() // 清空对象仓库里的对象
           .onsuccess = (event) => { // 成功后的回调
+            // tranRequest.commit()
             resolve(event)
           }
-        tranRequest.onerror = (event) => {
-          reject(event) // 失败后的回调
+        tranRequest.onerror = function (event) {
+          reject(event)
         }
       }
       // 判断数据库是否打开
@@ -194,7 +197,7 @@ const nfIndexedDB = () => {
     // 定义一个 Promise 的实例
     const objectPromise = new Promise((resolve, reject) => {
       // 删掉整个数据库
-      myIndexedDB.deleteDatabase(dbName).onsuccess = (event) => {
+      myDB.deleteDatabase(dbName).onsuccess = (event) => {
         resolve(event)
       }
     })
@@ -204,23 +207,29 @@ const nfIndexedDB = () => {
   // ======== 增删改操作 ===================================
   /**
   * 添加对象。
-  * storeName：对象仓库名；
+  * objectName：对象库名；
   * object：要添加的对象
   */
-  const addObject = (storeName, object) => {
+  const addObject = (objectName, object) => {
     const _object = _vueToObject(object)
     // 定义一个 Promise 的实例
     const objectPromise = new Promise((resolve, reject) => {
       // 定义个函数，便于调用
       const _addObject = () => {
-        const tranRequest = _db.transaction(storeName, 'readwrite')
+        const tranRequest = _db.transaction(objectName, 'readwrite')
         tranRequest
-          .objectStore(storeName) // 获取store
+          .objectStore(objectName) // 获取store
           .add(_object) // 添加对象
           .onsuccess = (event) => { // 成功后的回调
             resolve(event.target.result) // 返回对象的ID
           }
-        tranRequest.onerror = (event) => {
+        // 事务完成
+        tranRequest.oncomplete = (event) => {
+          console.log('addObject -- oncomplete')
+          // tranRequest.commit()
+          // resolve()
+        }
+        tranRequest.onerror = function (event) {
           reject(event)
         }
       }
@@ -239,36 +248,36 @@ const nfIndexedDB = () => {
 
   /**
   * 修改对象。
-  * storeName：对象仓库名；
+  * objectName：对象库名；
   * object：要修改的对象
   */
-  const updateObject = (storeName, object) => {
+  const updateObject = (objectName, object) => {
     const _object = _vueToObject(object)
     // 定义一个 Promise 的实例
     const objectPromise = new Promise((resolve, reject) => {
       // 定义个函数，便于调用
       const _updateObject = () => {
-        const tranRequest = _db.transaction(storeName, 'readwrite')
+        const tranRequest = _db.transaction(objectName, 'readwrite')
         // 按照id获取对象
         tranRequest
-          .objectStore(storeName) // 获取store
+          .objectStore(objectName) // 获取store
           .get(_object.id) // 获取对象
           .onsuccess = (event) => { // 成功后的回调
-            // 从仓库里提取对象，把修改值合并到对象里面。
+            // 从仓库里提取对象
+            // 把修改值合并到对象里面。
             const newObject = { ...event.target.result, ..._object }
             // 修改数据
             tranRequest
-              .objectStore(storeName) // 获取store
+              .objectStore(objectName) // 获取store
               .put(newObject) // 修改对象
               .onsuccess = (event) => { // 成功后的回调
-                if (config.debug) {
-                  console.log('updateObject -- onsuccess- event:', event)
-                }
+                console.log('updateObject -- onsuccess- event:', event)
+                // tranRequest.commit()
                 resolve(event.target.result)
               }
           }
 
-        tranRequest.onerror = (event) => {
+        tranRequest.onerror = function (event) {
           reject(event)
         }
       }
@@ -286,22 +295,23 @@ const nfIndexedDB = () => {
 
   /**
   * 依据id删除对象。
-  * storeName：对象仓库名；
+  * objectName：对象库名；
   * id：要删除的对象的key值，注意类型要准确。
   */
-  const deleteObject = (storeName, id) => {
+  const deleteObject = (objectName, id) => {
     // 定义一个 Promise 的实例
     const objectPromise = new Promise((resolve, reject) => {
       // 定义个函数，便于调用
       const _deleteObject = () => {
-        const tranRequest = _db.transaction(storeName, 'readwrite')
+        const tranRequest = _db.transaction(objectName, 'readwrite')
         tranRequest
-          .objectStore(storeName) // 获取store
+          .objectStore(objectName) // 获取store
           .delete(id) // 删除一个对象
           .onsuccess = (event) => { // 成功后的回调
+            // tranRequest.commit()
             resolve(event.target.result)
           }
-        tranRequest.onerror = (event) => {
+        tranRequest.onerror = function (event) {
           reject(event)
         }
       }
@@ -331,9 +341,10 @@ const nfIndexedDB = () => {
           .objectStore(storeName) // 获取store
           .clear() // 清空对象仓库里的对象
           .onsuccess = (event) => { // 成功后的回调
+            // tranRequest.commit()
             resolve(event)
           }
-        tranRequest.onerror = (event) => {
+        tranRequest.onerror = function (event) {
           reject(event)
         }
       }
@@ -352,31 +363,39 @@ const nfIndexedDB = () => {
   // ======== 获取对象、查询对象、分页功能 ===================================
   /**
   * 获取对象。
-  * storeName：对象仓库名；
+  * objectName：对象库名；
   * id：要获取的对象的key值，注意类型要准确，只能取一个。
   * 如果不设置id，会返回store里的全部对象
   */
-  const getObject = (storeName, id) => {
+  const getObject = (objectName, id) => {
     const objectPromise = new Promise((resolve, reject) => {
       const _getObject = () => {
-        const tranRequest = _db.transaction(storeName, 'readonly')
-        const store = tranRequest.objectStore(storeName) // 获取store
-        let dbRequest
-        // 判断是获取一个，还是获取全部
+        const tranRequest = _db.transaction(objectName, 'readonly')
         if (typeof id === 'undefined') {
-          dbRequest = store.getAll()
+          // 获取store里的全部对象
+          tranRequest
+            .objectStore(objectName) // 获取store
+            .getAll() // 获取全部对象
+            .onsuccess = (event) => { // 成功后的回调
+              console.log('getObject -- onsuccess- event:', event)
+              resolve(event.target.result) // 返回对象
+            }
         } else {
-          dbRequest = store.get(id)
+          // 按照id获取对象
+          tranRequest
+            .objectStore(objectName) // 获取store
+            .get(id) // 获取对象
+            .onsuccess = (event) => { // 成功后的回调
+              console.log('getObject -- onsuccess- event:', event)
+              resolve(event.target.result) // 返回对象
+            }
         }
 
-        dbRequest.onsuccess = (event) => { // 成功后的回调
-          if (config.debug) {
-            console.log('getObject -- onsuccess- event:', id, event)
-          }
-          resolve(event.target.result) // 返回对象
+        tranRequest.oncomplete = (event) => {
+          console.log('getObject -- oncomplete')
+          // tranRequest.commit()
         }
-    
-        tranRequest.onerror = (event) => {
+        tranRequest.onerror = function (event) {
           reject(event)
         }
       }
@@ -415,7 +434,7 @@ const nfIndexedDB = () => {
   var boundKeyRange = IDBKeyRange.bound("Bill", "Donna", false, true);
 
   // 使用其中的一个键范围，把它作为 openCursor()/openKeyCursor 的第一个参数
-  index.openCursor(boundKeyRange).onsuccess = (event) => {
+  index.openCursor(boundKeyRange).onsuccess = function(event) {
     var cursor = event.target.result;
     if (cursor) {
       // 当匹配时进行一些操作
@@ -426,64 +445,26 @@ const nfIndexedDB = () => {
 
   /**
   * 依据 索引+游标，获取对象，可以获取多条。
-  * storeName：对象仓库名。
+  * objectName：表名。
+  * indexName：索引名称。
+  * id：索引值。
   * page：{
   *   start:开始,
   *   count:数量,
-  *   description:'next' 
-  *   // next 升序
-  *   // prev 降序
-  *   // nextunique 升序，只取一
-  *   // prevunique 降序，只取一
+  *   description:IDBCursor.prev
   * }
-  * findInfo = {
-  *   indexName: 'groupId',
-  *   indexKind: '=', // '>','>=','<','<=','between',
-  *   indexValue: 1,
-  *   betweenInfo: {
-  *     v1:1,
-  *     v2:2,
-  *     v1isClose:true,
-  *     v2isClose:true,
-  *   },
-  *   where：(object) => {
-  *     reutrn true/false
-  *   }
+  * where：(object) => {
+  *   reutrn true/false
   * }
   */
-  const findObject = (storeName, findInfo = {}, page = {}) => {
+  const findObject = (objectName, indexName, id, page = {}, where) => {
     const _start = page.start || 0
     const _count = page.count || 0
     const _end = _start + _count
-    const _description = page.description || 'prev' // 默认倒序
+    const _description = page.description || IDBCursor.prev // 默认倒序
 
-    // 查询条件，按照主键或者索引查询
-    let keyRange = null
-    if (typeof findInfo.indexName !== "undefined") {
-      if (typeof findInfo.indexKind !== "undefined") {
-        const id = findInfo.indexValue
-        const dicRange = {
-          "=":IDBKeyRange.only(id),
-          ">":IDBKeyRange.lowerBound(id, true),
-          ">=":IDBKeyRange.lowerBound(id),
-          "<":IDBKeyRange.upperBound(id, true),
-          "<=":IDBKeyRange.upperBound(id)
-        }
-        switch (findInfo.indexKind) {
-          case '=':
-          case '>':
-          case '>=':
-          case '<':
-          case '<=':
-            keyRange = dicRange[findInfo.indexKind]
-            break
-          case 'between':
-            const betweenInfo = findInfo.betweenInfo
-            keyRange = IDBKeyRange.bound(betweenInfo.v1,betweenInfo.v2,betweenInfo.v1isClose,betweenInfo.v2isClose)
-            break
-        }
-      }
-    }
+    // 查询条件
+    const keyRange = IDBKeyRange.only(id)
     console.log('findObject - keyRange', keyRange)
 
     const objectPromise = new Promise((resolve, reject) => {
@@ -491,25 +472,21 @@ const nfIndexedDB = () => {
       const _findObjectByIndex = () => {
         const dataList = []
         let cursorIndex = 0
-        const tranRequest = _db.transaction(storeName, 'readonly')
-        const store = tranRequest.objectStore(storeName)
-        let cursorRequest 
-        // 判断是否索引查询
-        if (typeof findInfo.indexName === "undefined") {
-          cursorRequest = store.openCursor(keyRange, _description)
-        } else {
-          cursorRequest = store
-            .index(findInfo.indexName)
-            .openCursor(keyRange, _description)
-        }
+        const tranRequest = _db.transaction(objectName, 'readonly')
+        const cursorRequest = tranRequest
+          .objectStore(objectName)
+          .index(indexName)
+          .openCursor(keyRange, _description)
 
         cursorRequest.onsuccess = (event) => {
+          console.log('findObjectByIndex - onsuccess - event', event)
           const cursor = event.target.result
           if (cursor) {
+            // console.log('cursor', cursor)
             if (_end === 0 || (cursorIndex >= _start && cursorIndex < _end)) {
               // 判断钩子函数
-              if (typeof findInfo.where === 'function') {
-                if (findInfo.where(cursor.value, cursorIndex)) {
+              if (typeof where === 'function') {
+                if (where(cursor.value, cursorIndex)) {
                   dataList.push(cursor.value)
                   cursorIndex++
                 }
@@ -524,12 +501,10 @@ const nfIndexedDB = () => {
         }
 
         tranRequest.oncomplete = (event) => {
-          if (config.debug) {
-            console.log('findObjectByIndex - dataList', dataList)
-          }
+          console.log('findObjectByIndex - dataList', dataList)
           resolve(dataList)
         }
-        tranRequest.onerror = (event) => {
+        tranRequest.onerror = function (event) {
           console.log('findObjectByIndex - onerror', event)
           reject(event)
         }
@@ -547,17 +522,19 @@ const nfIndexedDB = () => {
     return objectPromise
   }
 
+
+
   return {
     dbOpen, // 打开数据库
     setup, // 初始化、升级数据库
-    clearStore, // 清空对象仓库里的所有对象
-    deleteStore, // 删掉对象仓库
-    deleteDB, // 删除数据库
     addObject, // 添加对象
     updateObject, // 修改对象
     deleteObject, // 删除对象
     getObject, // 依据ID获取对象，或者获取全部store
-    findObject // index 查询和分页
+    findObject, // index 查询和分页
+    clearStore, // 清空对象仓库里的所有对象
+    deleteStore, // 删掉对象仓库
+    deleteDB // 删除数据库
   }
 }
 

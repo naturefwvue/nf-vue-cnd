@@ -14,25 +14,52 @@
   <div id="app">
     <hr>
     IndexedDb的操作演示<br>
-    <input type="button" @click="myOpen" value="打开数据库"/><br>
-    <input type="button" @click="getAll" value="获取全部对象"/><br>
-    <input type="button" @click="add" value="添加对象"/><br>
-    <input type="button" @click="update" value="修改对象"/><br>
-    <input type="button" @click="delObject" value="删除对象"/><br>
-    <input type="button" @click="clear" value="清空仓库"/><br>
-    <input type="button" @click="delStore" value="删除仓库"/><br>
-    <input type="button" @click="delDb" value="删除数据库"/><br>
-    <input type="button" @click="find" value="查询"/><br>
+    <input type="button" @click="myOpen" value="打开数据库"/><br><br>
+    <input type="button" @click="getAll" value="获取全部对象"/><br><br>
+    <input type="text" v-model="delId"><br>
+    <input type="button" @click="getBlog(delId)" value="获取一个对象"/><br><br>
+    
+    <input type="button" @click="add" value="添加对象"/><br><br>
+    <input type="text" v-model="updateBlog.title"><br>
+    <input type="text" v-model="updateBlog.introduction"><br>
+    <input type="text" v-model="updateBlog.concent"><br>
+    <input type="button" @click="update(updateBlog)" value="修改对象"/>
+    
+    <br><br>
+    <input type="text" v-model="delId"><br>
+    <input type="button" @click="delObject(delId)" value="删除对象"/>
+    <br><br>
+    <input type="button" @click="clear" value="清空仓库"/><br><br>
+    <input type="button" @click="delStore" value="删除仓库"/><br><br>
+    <input type="button" @click="delDb" value="删除数据库"/><br><br>
+    
+    <input type="text" v-model="findKey"><br>
+    <input type="button" @click="find" value="查询"/><br><br>
    
     <input type="button" @click="myOpen" value="打开数据库"/><br>
+    <div>
+      查询结果：<br>
+      <div v-for="(item, index) in findRe"
+        style="margin: 15px;"
+        :key="index"
+        >
+        {{index}}--{{item}}
+      </div>
+    </div>
     <div>
       操作结果：<br>
       {{re}}
     </div>
+    <hr>
     <div>
       全部数据：
     </div>
-    <div v-for="(item, index) in allObject" :key="index">
+    <div v-for="(item, index) in allObject"
+      style="margin: 15px;"
+      :key="index"
+      @mousemove="readyDel(item.id)" 
+      @click="readyUpdate(item)"
+      >
       {{index}}--{{item}}
     </div>
     <hr>
@@ -41,7 +68,7 @@
     import nfIndexedDB from './nf-indexedDB.js'
 
     // 演示添加、修改、删除的类
-    const crud = (re, getAll) =>{
+    const crudManage = (re, getAll) =>{
       const {
         addObject, // 添加对象
         updateObject,// 修改对象
@@ -69,20 +96,16 @@
       }
 
       // 修改对象
-      const update = () => {
-        updateObject('blog',{
-          id: 2,
-          groupId: 1,
-          title: '这是三个博客33333344455'
-        }).then((data) => {
+      const update = (blog) => {
+        updateObject('blog',blog).then((data) => {
           re.value = data
           getAll()
         })
       }
 
       // 删除对象
-      const delObject = () => {
-        deleteObject('blog',1612268580332).then((data) => {
+      const delObject = (id) => {
+        deleteObject('blog',id).then((data) => {
           re.value = data
           getAll()
         })
@@ -106,7 +129,7 @@
 
       // 删除数据库
       const delDb = () => {
-        deleteDB('blog').then((data) => {
+        deleteDB('dbTest').then((data) => {
           re.value = data
           getAll()
         })
@@ -121,9 +144,88 @@
         delDb // 删除整个数据库
       }
     }
+  
+    // 准备修改、删除的类
+    const readyManage = () => {
+      const delId = Vue.ref(0)
+
+      const updateBlog = Vue.ref({
+        id: 0,
+        title: '',
+        introduction: '',
+        concent: ''
+      })
+
+      // 准备删除
+      const readyDel = (id) => {
+        delId.value = id
+      }
+
+      // 准备修改
+      const readyUpdate = (obj) => {
+        updateBlog.value = obj
+      }
+
+      return {
+        delId, // 要删除的对象ID
+        updateBlog, // 要修改的对象
+        readyDel, // 准备删除
+        readyUpdate // 准备修改
+      }
+    }
+
+    // 查询的类
+    const findManage = (re, getAll) => {
+      const {
+        findObject
+      } = nfIndexedDB()
+
+      const findKey = Vue.ref('') // 查询关键字
+      const findRe = Vue.ref('') // 查询结果
+
+      // 查询条件
+      const findInfo = {
+        indexName: 'groupId',
+        indexKind: '=', // '>','>=','<','<=','between',
+        indexValue: 1,
+        betweenInfo: {
+          v1:1,
+          v2:2,
+          v1isClose:true,
+          v2isClose:true,
+        },
+        where: (object) => {
+          if (findKey.value == '') return true
+          let re = false
+          if (object.title.indexOf(findKey.value) >= 0) {
+            re = true
+          }
+          if (object.introduction.indexOf(findKey.value) >= 0) {
+            re = true
+          }
+          if (object.concent.indexOf(findKey.value) >= 0) {
+            re = true
+          }
+          return re
+        }
+      }
+
+      const find = () => {
+        findObject('blog', findInfo).then((data) => {
+          findRe.value = data
+        })
+      }
+
+      return {
+        findKey,
+        findRe,
+        find
+      }
+    }
+
     const App = {
       setup() {
-        // console.log(nfIndexedDB().dbOpen)
+        // 获取indexedDb的操作类
         const {
           dbOpen,
           getObject
@@ -131,6 +233,10 @@
 
         // 显示仓库里所有的对象
         const allObject = Vue.ref([])
+        // 显示操作结果的对象
+        const re = Vue.ref(0)
+      
+        // 获取全部数据
         const getAll = () => {
           getObject('blog').then((data) =>{
             allObject.value = data
@@ -138,9 +244,31 @@
         }
         getAll() // 获取先
 
-        // 显示操作结果的对象
-        const re = Vue.ref(0)
+        // 获取一个对象
+        const getBlog = (id) =>{
+          getObject('blog', id).then((data) =>{
+            re.value = data
+          })
+        }
 
+        // 打开数据库，并且初始化
+        const myOpen = () => {
+          dbOpen().then(() =>{
+            // 建表初始化之后，获取全部对象
+            getAll()
+          })
+        }
+      
+        // 准备修改和删除的事件
+        const {
+          delId, // 要删除的对象ID
+          updateBlog, // 要修改的对象
+          readyDel, // 准备删除
+          readyUpdate // 准备修改
+        } = readyManage()
+
+        // 获取添加、修改、删除的操作类
+        // 传入对象和事件，用于更新数据
         const {
           add,
           update,
@@ -148,25 +276,38 @@
           clear,
           delStore,
           delDb
-        } = crud(re, getAll)
+        } = crudManage(re, getAll)
 
-        // 打开数据库，并且初始化
-        const myOpen = () => {
-          dbOpen().then(() =>{
-            getAll()
-          })
-        }
-
+        // 查询和翻页
+        const {
+          findKey,
+          find,
+          findRe
+        } = findManage(re, getAll)
+      
+        
+        // 向模板提供数据和事件
         return {
-          allObject,
-          re,
-          myOpen,
-          getAll,
-          add,
-          update,
-          clear,
-          delObject,
-          delDb
+          allObject, // 全部数据
+          re, // 显示操作结果
+          myOpen, // 打开数据库、初始化
+          getAll, // 获取全部数据的事件
+          getBlog, // 获取一个对象
+          // 增删改查
+          add, // 添加对象
+          update, // 修改对象
+          clear, // 清空对象仓库
+          delObject, // 删除对象仓库
+          delDb, // 删除数据库
+          // 准备删除和修改
+          delId, // 要删除的对象ID
+          updateBlog, // 要修改的对象
+          readyDel, // 准备删除
+          readyUpdate, // 准备修改
+          // 查询和翻页
+          findKey, // 查询关键字
+          find, // 查询事件
+          findRe // 查询结果
         }
          
       }
