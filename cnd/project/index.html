@@ -10,6 +10,8 @@
   <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css">
   <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
+  <!--axios-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <style>
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -48,7 +50,20 @@
     $store - count：{{$store.state.count}}<br>
     <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
     <hr>
- 
+  
+    <el-button type="primary" onclick="myget()">ajax</el-button><br>
+
+    <script>
+      function myget() {
+        axios.get('/vuex.vue')
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      }
+    </script>
   <script type="module" src="src/main.js?v=9"></script>
 </body>
 </html>
