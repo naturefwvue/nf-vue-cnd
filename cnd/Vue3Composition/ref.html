@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue3 的 ref 的演示</title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+</head>
+<body>
+  <div>
+    reactive 的演示...
+  </div>
+  <div id="app">
+    <hr>
+    reactive：{{person}}
+  </div>
+
+  <script type="module">
+    const App = {
+      setup() {
+
+        // 简单类型
+        const string = Vue.ref('jyk')
+
+        // 对象
+        const person = Vue.ref({
+          name: 'jyk',
+          age: 100
+        })
+
+        console.log('ref-string:', string)
+        console.log('ref-type:', typeof string)
+        console.log('ref-call:', Object.prototype.toString.call(string))
+        
+        console.log('ref-object:', person)
+        console.log('ref-type:', typeof person)
+        console.log('ref-call:', Object.prototype.toString.call(person))
+     
+        return {
+          person
+        }
+      }
+    }
+    
+    const vm = Vue.createApp(App).mount('#app')
+
+  </script>
+</body>
+</html>

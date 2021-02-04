@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue3 的 reactive 的演示</title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+</head>
+<body>
+  <div>
+    reactive 的演示...
+  </div>
+  <div id="app">
+    <hr>
+    reactive：{{person}}
+  </div>
+
+  <script type="text/javascript">
+    // ES6 的 Proxy 
+    let onWatch = (obj, setBind, getLogger) => {
+      let handler = {
+        get(target, property, receiver) {
+          getLogger(target, property)
+          return Reflect.get(target, property, receiver)
+        },
+        set(target, property, value, receiver) {
+          setBind(value, property)
+          return Reflect.set(target, property, value)
+        }
+      }
+      return new Proxy(obj, handler)
+    }
+
+  let obj = { a: 1 }
+  let p = onWatch(
+    obj,
+    (v, property) => {
+      console.log(`监听到属性${property}改变为${v}`)
+    },
+    (target, property) => {
+      console.log(`'${property}' = ${target[property]}`)
+    }
+  )
+  console.log(p)
+  p.a = 2 // 监听到属性a改变
+
+  </script>
+
+  <script type="module">
+    const App = {
+      setup() {
+        const person = Vue.reactive({
+          name: 'jyk',
+          age: 100
+        })
+
+        console.log('reactive:', person)
+        console.log('reactive-Type:', typeof person)
+        console.log('reactive-call:', Object.prototype.toString.call(person))
+        
+        return {
+          person
+        }
+      }
+    }
+    
+    const vm = Vue.createApp(App).mount('#app')
+
+  </script>
+</body>
+</html>
