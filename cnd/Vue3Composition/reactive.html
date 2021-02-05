@@ -13,7 +13,10 @@
   </div>
   <div id="app">
     <hr>
-    reactive：{{person}}
+    person：{{person}}<br>
+    myReatReadonly：{{myReatReadonly}}<br>
+    myReatReadonly：{{myReatReadonly}}<br>
+
   </div>
 
   <script type="text/javascript">
@@ -52,15 +55,64 @@
       setup() {
         const person = Vue.reactive({
           name: 'jyk',
-          age: 100
+          age: 100,
+          contact: {
+            QQ: 122345,
+            photo: 13012312314
+          }
         })
 
         console.log('reactive:', person)
         console.log('reactive-Type:', typeof person)
         console.log('reactive-call:', Object.prototype.toString.call(person))
-        
+
+        // reactive 的 readonly
+        const myReatReadonly = Vue.readonly(person)
+        myReatReadonly.name = 'myReadonly' // 会出警告
+        console.log('myReatReadonly:', myReatReadonly)
+
+        // 普通对象的 readonly
+        const myObjectReadonly = Vue.readonly({
+          name:'object',
+          age: 100
+        })
+        console.log('myObjectReadonly:', myObjectReadonly)
+
+        // 简单类型的 readonly
+        const myNumberReadonly = Vue.readonly(0) // 警告
+        console.log('myNumberReadonly:', myNumberReadonly)
+
+        // isProxy
+        console.log('reactive:',Vue.isProxy(person))
+        console.log('readonly:',Vue.isProxy(myReatReadonly))
+        console.log('ObjectReadonly:',Vue.isProxy(myObjectReadonly))
+        console.log('isProxy:',Vue.isProxy({name:'isProxy'}))
+        console.log('-----------分隔符-----------')
+
+        // isReactive
+        console.log('reactive:',Vue.isReactive(person))
+        console.log('readonly:',Vue.isReactive(myReatReadonly))
+        console.log('ObjectReadonly:',Vue.isReactive(myObjectReadonly))
+        console.log('isReactive:',Vue.isReactive({name:'isReactive'}))
+        console.log('-----------分隔符-----------')
+
+        // isReadonly
+        console.log('reactive:',Vue.isReadonly(person))
+        console.log('readonly:',Vue.isReadonly(myReatReadonly))
+        console.log('ObjectReadonly:',Vue.isReadonly(myObjectReadonly))
+        console.log('isReadonly:',Vue.isReadonly({name:'isReadonly'}))
+        console.log('-----------分隔符-----------')
+
+        // toRaw
+        console.log('reactive:',Vue.toRaw(person))
+        console.log('readonly:',Vue.toRaw(myReatReadonly))
+        console.log('ObjectReadonly:',Vue.toRaw(myObjectReadonly))
+        console.log('toRaw:',Vue.toRaw({name:'toRaw'}))
+
         return {
-          person
+          person,
+          myReatReadonly,
+          myObjectReadonly
         }
       }
     }
