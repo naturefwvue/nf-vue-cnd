@@ -13,7 +13,8 @@
   </div>
   <div id="app">
     <hr>
-    reactive：{{person}}
+    reactive：{{person}} <br>
+    name: {{name}}<br>
   </div>
 
   <script type="module">
@@ -37,8 +38,46 @@
         console.log('ref-type:', typeof person)
         console.log('ref-call:', Object.prototype.toString.call(person))
      
+        // unref
+        console.log('person:',Vue.unref(person))
+        console.log('personToRaw:',Vue.toRaw(person))
+        console.log('personUnrefToRaw:',Vue.toRaw(Vue.unref(person)))
+        console.log('string:',Vue.unref(string))
+        console.log('stringUnrefToRaw:',Vue.toRaw(Vue.unref(string)))
+        console.log('unref:',Vue.unref({name:'unref'}))
+
+        // toRef
+        const person2 = Vue.reactive({
+          name: 'jyk',
+          age: 100
+        })
+        const personNameToRef = Vue.toRef(person2, 'name')
+        console.log('toRef', personNameToRef)
+        console.log('toRefValue', personNameToRef.value)
+        console.log('toRef2', Vue.ref(person2.name))
+        console.log('-----------分隔符-----------')
+
+        // toRef
+        const personToRefs = Vue.toRefs(person2)
+        console.log('toRefs', personToRefs)
+        console.log('toRefs2', personToRefs.name)
+        console.log('-----------分隔符-----------')
+
+        // isRef
+        console.log('reactive', Vue.isRef(person2))
+        console.log('ref', Vue.isRef(person))
+        console.log('object', Vue.isRef({name:'isRef'}))
+        console.log('number', Vue.isRef(123))
+        
+
+        setTimeout(() => {
+          person2.name = '1111111'
+        },1000)
         return {
-          person
+          person,
+          // ...person2,
+          ...personToRefs
+          
         }
       }
     }
