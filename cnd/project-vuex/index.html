@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vuex4.0的使用方式</title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
+  <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
+  <!--axios-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    #app {
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+    }
+    #nav {
+      padding: 30px;
+    }
+    #nav a {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    #nav a.router-link-exact-active {
+      color: #42b983;
+    }
+    </style>
+</head>
+<body>
+  <div>
+    这里演示一下vuex的演示...
+  </div>
+  <div id="app">
+    <div id="nav">
+      <p>
+        <router-link :to="{name:'Home'}">首页</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'state'}">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'component'}">查看组件加载</router-link>
+      </p>
+      <router-view></router-view>
+    </div>
+    <hr>
+    vuex状态演示<br>
+    $store - count：{{$store.state.count}}<br>
+    <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
+    <hr>
+    
+  <script type="module" src="src/main.js?v=9"></script>
+</body>
+</html>
