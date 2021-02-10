@@ -1,8 +1,9 @@
+const { ref } = Vue
 
 const testManage = () => {
-  const hello = Vue.ref('你好，世界')
+  const hello = ref('你好，世界')
   const clickMe = () => {
-    hello.value = '好的，收到' + new Date().valueOf()
+    hello.value = '好的22，收到' + new Date().valueOf()
   }
 
   return {

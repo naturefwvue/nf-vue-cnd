@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/home.js?v=8')
+    component: () => import('../views/home.js?v=8'+'aa')
   },
   {
     path: '/state',
