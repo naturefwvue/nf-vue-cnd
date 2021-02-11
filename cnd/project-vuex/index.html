@@ -41,21 +41,52 @@
       <p>
         <router-link :to="{name:'Home'}">首页</router-link>&nbsp;&nbsp;&nbsp;
         <router-link :to="{name:'state'}">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link :to="{name:'component'}">查看组件加载</router-link>
+        <router-link :to="{name:'component'}">动态加载组件</router-link>
       </p>
       <router-view></router-view>
     </div>
-    <hr>
-    vuex状态演示<br>
-    $store - count：{{$store.state.count}}<br>
-    map返回的count： {{myCount}}<br>
-    map2返回的count： {{myCount2}}<br>
-    计算属性的count： {{getCountComputed}}<br>
-    state的引用类型： {{myObject}}<br>
-    state的只读类型： {{myReadonlyObject}}<br>
-    <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
+    <div style="text-align: left;">
+      vuex状态演示<br>
+      模板：<br>
+      $store - count ：{{$store.state.count}}<br>
+      $store - myObject ：{{$store.state.myObject}}<br>
+  
+  
+      <hr>
+      整体：<br>
+      allState ：{{allState}}
+  
+      <hr>
+      成员 ：<br>
+      memberCount ： {{memberCount}}<br>
+      memberObject ：{{memberObject}}<br>
+
+      <hr>
+      间接获取：<br>
+      refCount ：{{refCount}} （ref）<br>
+      comCount ：{{comCount}} （计算属性） <br>
+      readonlyObject ： {{readonlyObject}} （只读的reactive）
+      <hr>
+
+      <br>
+      <br>
+      <hr>
+  
+      <hr>
+  
+      map返回的count： {{myCount}}<br>
+      map2返回的count： {{myCount2}}<br>
+      计算属性的count： {{getCountComputed}}<br>
+      state的引用类型： {{myObject}}<br>
+      state的只读类型： {{myReadonlyObject}}<br>
+      整体的state： {{allState}}<br>
+      ref的count：{{refCount}}<br>
+      <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
+      <hr>
+    </div>
     <hr>
     
-  <script type="module" src="src/main.js?v=9"></script>
+    
+  <script type="module" src="src/main.js?v=10"></script>
 </body>
 </html>

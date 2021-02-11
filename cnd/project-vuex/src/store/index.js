@@ -7,14 +7,8 @@ export default Vuex.createStore({
     }
   },
   getters: {
-    getCount: (state) => {
-      return state.count
-    },
     getAddCount: (state) => {
       return state.count++
-    },
-    getMyObject: (state) => {
-      return Vue.readonly(state.myObject)
     },
     getTime: (state) => {
       return state.myObject.time + new Date()
