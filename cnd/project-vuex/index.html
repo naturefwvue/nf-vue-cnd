@@ -48,8 +48,8 @@
     <div style="text-align: left;">
       vuex状态演示<br>
       模板：<br>
-      $store - count ：{{$store.state.count}}<br>
-      $store - myObject ：{{$store.state.myObject}}<br>
+      $store - count ：{{$store.state.count}} （使用state的属性，有相应性）<br>
+      $store - myObject ：{{$store.state.myObject}}（同上）<br>
   
   
       <hr>
@@ -58,8 +58,8 @@
   
       <hr>
       成员 ：<br>
-      memberCount ： {{memberCount}}<br>
-      memberObject ：{{memberObject}}<br>
+      memberCount ： {{memberCount}} （用简单类型的成员定义，没有相应性）<br>
+      memberObject ：{{memberObject}} （用引用类型的成员定义，自带响应性）<br>
 
       <hr>
       间接获取：<br>
@@ -67,26 +67,26 @@
       comCount ：{{comCount}} （计算属性） <br>
       readonlyObject ： {{readonlyObject}} （只读的reactive）
       <hr>
-
+      操作后获取：<br>
+      addCount ：{{addCount}} （计算属性，导致整体都 +1）<br>
+      getAddCount ：{{getAddCount}} （getter，自己没有相应性）<br>
+      comGetAddCount ：{{comGetAddCount}} （getter，需要套一个computed才能相应）<br>
+      filterArray ：{{filterArray}} （getter，需要套一个computed才能相应）<br>
+      comFilterArray ：{{comFilterArray}} （getter，需要套一个computed才能相应）<br>
       <br>
       <br>
       <hr>
   
       <hr>
-  
-      map返回的count： {{myCount}}<br>
-      map2返回的count： {{myCount2}}<br>
-      计算属性的count： {{getCountComputed}}<br>
-      state的引用类型： {{myObject}}<br>
-      state的只读类型： {{myReadonlyObject}}<br>
-      整体的state： {{allState}}<br>
-      ref的count：{{refCount}}<br>
+      封装：<br>
+      mapCount ：{{mapCount}}<br>
+     
       <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
       <hr>
     </div>
     <hr>
     
     
-  <script type="module" src="src/main.js?v=10"></script>
+  <script type="module" src="src/main.js?v=12"></script>
 </body>
 </html>
