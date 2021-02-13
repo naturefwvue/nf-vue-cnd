@@ -1,5 +1,6 @@
   
   import map from './store/map.js?v=12'
+  import { Set_Count, Set_Count_sy } from './store/mutation-types.js'
 
   // 整体获取
   const allStateManage = () => {
@@ -18,7 +19,7 @@
     // 定时修改 count 看响应性
     setTimeout(() => {
       // store.commit('setCount')
-      // allState.count += 101 // 会直接改vuex的state
+      allState.count += 101 // 会直接改vuex的state
     }, 1000)
     
     return {
@@ -39,7 +40,7 @@
 
     // 定时修改 count 看响应性
     setTimeout(() => {
-      memberCount += 101 
+      // memberCount += 101 
       // const 定义的会报错，不允许赋值，常量。
       // let 定义的可以修改，但是没有相应性
     }, 1000)
@@ -57,7 +58,7 @@
     // 用toRef获取 count，有相应性，可以直接修改state
     const refCount = Vue.toRef(store.state, 'count')
     // 计算属性获取count，有相应性，不可以直接修改state
-    const comCount = Vue.computed(() => store.state.count)
+    const comCount = '' // Vue.computed(() => store.state.count)
     // 只读的对象，有相应性，浅层不可以修改，但是深层还是可以修改。
     const readonlyObject = Vue.readonly(store.state.myObject)
 
@@ -85,9 +86,9 @@
     // 计算属性获取count
     const addCount = '' // Vue.computed(() => store.state.count++)
     const getAddCount = store.getters.getAddCount
-    const comGetAddCount = Vue.computed(() => store.getters.getAddCount)
+    const comGetAddCount = '' // Vue.computed(() => store.getters.getAddCount)
     const filterArray = store.getters.filterArray(2)
-    const comFilterArray = Vue.computed(() => store.getters.filterArray(2))
+    const comFilterArray = '' // Vue.computed(() => store.getters.filterArray(2))
 
     console.log('addCount ：', addCount)
     console.log('getAddCount ：', getAddCount)
@@ -106,6 +107,62 @@
 
   }
 
+  // 设置state
+  const mutationsManage = () => {
+    const store = Vuex.useStore()
+
+    let commitSetCount = Vue.computed({
+      get: () => store.state.count + 1,
+      set: (val) => {
+        // store.commit('setCount', val)
+      }
+    })
+    console.log('commitSetCount ：', commitSetCount)
+    console.log('================')
+
+    // 定时修改 count 看响应性
+    setTimeout(() => {
+      // commitSetCount.value = 202 // 会直接改vuex的state
+    }, 2000)
+
+    return {
+      commitSetCount
+    }
+  }
+
+  // 异步操作
+  const actionManame = () => {
+    const store = Vuex.useStore()
+
+    const getArray = store.dispatch('getArray')
+    console.log('外部调用 getArray', getArray)
+    getArray.then((data) => {
+      console.log('===========')
+      console.log('getArray 异步操作完成，返回数据：', data)
+      console.log('===========')
+    })
+
+    const getArrayPromise = store.dispatch('getArrayPromise')
+    console.log('外部调用 getArrayPromise', getArrayPromise)
+    getArrayPromise.then((data) => {
+      console.log('===========')
+      console.log('getArrayPromise 异步操作完成，返回数据：', data)
+      console.log('===========')
+    })
+
+    store.dispatch('getData').then((data) => {
+      console.log('===========')
+      console.log('getData 异步操作完成，返回数据：', data)
+      console.log('===========')
+      
+    })
+
+    return {
+      getArray,
+      getArrayPromise
+    }
+  } 
+
   // vue3的对象
   const App = {
     setup() { // 传说中的setup
@@ -116,6 +173,9 @@
         store.commit('setCount')
         store.commit('setTime')
         store.commit('setArray')
+       
+        store.commit(Set_Count)
+        // store.commit(Set_Count_sy)
         
         store._mutations.setCount[0] // 这是什么？
 
@@ -138,6 +198,12 @@
 
       const mapCount = mapGetCount()
 
+      // mutations 
+      const { commitSetCount } = mutationsManage()
+
+      // action
+      const { getArray, getArrayPromise } = actionManame()
+
       return {  // 返回给模板，否则模板访问不到。
         // 直接获取state
         allState,
@@ -149,6 +215,8 @@
         addCount,getAddCount,comGetAddCount,filterArray,comFilterArray,
         // map
         mapCount,
+        // 突变
+        commitSetCount,
         // 设置state
         setCount
       }

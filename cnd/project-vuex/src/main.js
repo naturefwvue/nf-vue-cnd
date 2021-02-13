@@ -1,6 +1,6 @@
-import store from './store/index.js?v=12'
-import router from './router/index.js?v=12'
-import App from './app.js?v=12'
+import store from './store/index.js?v=19'
+import router from './router/index.js?v=19'
+import App from './app.js?v=22'
 
 // 创建vue3的实例
 const app = Vue.createApp(App)

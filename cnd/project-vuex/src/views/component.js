@@ -1,9 +1,9 @@
 // 引入组件
-import test from '../component/test.js?v=9'
-import hello from '../component/test.js?v=7'
-console.log('test-----', test)
+// import test from '../component/test.js?v=9'
+const ver = window.__ver || ''
 
-const hh = import('../views/home.js?v=8'+'aa')
+const hh = import('../views/home.js' + ver)
+
 hh.then((data) =>{
   console.log('import返回的data', data)
   console.log('import返回的data', data.default)
@@ -19,7 +19,7 @@ const demo = {
   <asy str="动态组件传入的参数"></asy>
   `,
   components: {
-    test,
+    test: () => import('../component/test.js' + ver),
     asy: Vue.defineAsyncComponent( () => 
       new Promise((resolve, reject) => {
         // axios加载模板
