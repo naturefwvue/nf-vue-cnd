@@ -1,4 +1,4 @@
-// import Home from '../views/home.js?v=2'
+import myImport from '../script/myImport.js'
 
 const ver = window.__ver || ''
 const routes = [
@@ -10,12 +10,27 @@ const routes = [
   {
     path: '/state',
     name: 'state',
-    component: () => import('../views/state.js' + ver)
+    component: () => myImport('../../src/views/01stateall')
   },
   {
-    path: '/component',
-    name: 'component',
-    component: () => import('../views/component.js' + ver)
+    path: '/state2',
+    name: 'state2',
+    component: () => myImport('../../src/views/02statemember')
+  },
+  {
+    path: '/getter',
+    name: 'getter',
+    component: () => myImport('../../src/views/03getter')
+  },
+  {
+    path: '/setter',
+    name: 'setter',
+    component: () => myImport('../../src/views/04setter')
+  },
+  {
+    path: '/action',
+    name: 'action',
+    component: () => myImport('../../src/views/05action')
   }
 ]
 

@@ -40,48 +40,22 @@
     <div id="nav">
       <p>
         <router-link :to="{name:'Home'}">首页</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link :to="{name:'state'}">查看状态管理</router-link>&nbsp;&nbsp;&nbsp;
-        <router-link :to="{name:'component'}">动态加载组件</router-link>
+        <router-link :to="{name:'state'}">state 的演示</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'state2'}">state2 的演示</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'getter'}">getter 的演示</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'setter'}">setter 的演示</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'action'}">action 的演示</router-link>&nbsp;&nbsp;&nbsp;
       </p>
-      <router-view></router-view>
+      <hr>
+      <div style="text-align: left;margin-left: 200px;">
+        <router-view></router-view>
+      </div>
     </div>
     <div style="text-align: left;">
       vuex状态演示<br>
       模板：<br>
-      $store - count ：{{$store.state.count}} （使用state的属性，有相应性）<br>
-      $store - myObject ：{{$store.state.myObject}}（同上）<br>
-  
-  
-      <hr>
-      整体：<br>
-      allState ：{{allState}}
-  
-      <hr>
-      成员 ：<br>
-      memberCount ： {{memberCount}} （用简单类型的成员定义，没有相应性）<br>
-      memberObject ：{{memberObject}} （用引用类型的成员定义，自带响应性）<br>
-
-      <hr>
-      间接获取：<br>
-      refCount ：{{refCount}} （ref）<br>
-      comCount ：{{comCount}} （计算属性） <br>
-      readonlyObject ： {{readonlyObject}} （只读的reactive）
-      <hr>
-      操作后获取：<br>
-      addCount ：{{addCount}} （计算属性，导致整体都 +1）<br>
-      getAddCount ：{{getAddCount}} （getter，自己没有相应性）<br>
-      comGetAddCount ：{{comGetAddCount}} （getter，需要套一个computed才能相应）<br>
-      filterArray ：{{filterArray}} （getter，需要套一个computed才能相应）<br>
-      comFilterArray ：{{comFilterArray}} （getter，需要套一个computed才能相应）<br>
-      <br>
-      <hr>
-      封装：<br>
-      mapCount ：{{mapCount}}<br>
-      <br>
-  
-      <hr>
-      突变：<br>
-      commitSetCount ：{{commitSetCount}}<br>
+      $store - count ：{{$store.state.count}} <br>
+      $store - myObject ：{{$store.state.myObject}}<br>
      
       <el-button type="primary" @click="setCount">vuex的 计数</el-button><br>
       <hr>
@@ -89,10 +63,9 @@
     <hr>
     
   <script type="text/javascript">
-    window.__ver = "?v=22"
-    console.log(window)
+    window.__ver = "?v=27"
   </script>
   
-  <script type="module" src="src/main.js?v=22"></script>
+  <script type="module" src="src/main.js?v=27"></script>
 </body>
 </html>
