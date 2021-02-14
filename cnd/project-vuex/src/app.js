@@ -2,7 +2,7 @@
   // import { Set_Count, Set_Count_sy } from './store/mutation-types.js'
 
   export default {
-    setup() { // 传说中的setup
+    setup() {
       const store = Vuex.useStore()
   
       // 状态的控制事件

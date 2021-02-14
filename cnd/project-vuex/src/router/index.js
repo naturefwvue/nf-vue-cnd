@@ -1,36 +1,35 @@
-import myImport from '../script/myImport.js'
+// import myImport from '../script/myImport.js?v=29'
 
-const ver = window.__ver || ''
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/home.js' + ver)
+    component: () => myImport('views/home.js')
   },
   {
     path: '/state',
     name: 'state',
-    component: () => myImport('../../src/views/01stateall')
+    component: () => myImport('views/01stateall')
   },
   {
     path: '/state2',
     name: 'state2',
-    component: () => myImport('../../src/views/02statemember')
+    component: () => myImport('views/02statemember')
   },
   {
     path: '/getter',
     name: 'getter',
-    component: () => myImport('../../src/views/03getter')
+    component: () => myImport('views/03getter')
   },
   {
     path: '/setter',
     name: 'setter',
-    component: () => myImport('../../src/views/04setter')
+    component: () => myImport('views/04setter')
   },
   {
     path: '/action',
     name: 'action',
-    component: () => myImport('../../src/views/05action')
+    component: () => myImport('views/05action')
   }
 ]
 

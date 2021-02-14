@@ -12,6 +12,19 @@
   <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
   <!--axios-->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript">
+    let basrUrl = '/src/' // 假定 src在网站根目录
+    // 判断所处网站，确定基础url
+    switch (window.location.origin) {
+      case 'https://naturefwvue.github.io': //github
+        basrUrl = '/nf-vue-cnd/cnd/project-vuex/src/'
+        break
+    }
+    window.__ver = '?v=28'
+    window.__basrUrl = basrUrl
+
+  </script>
+  <script type="module" src="src/script/appImport.js"></script>
   <style>
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -62,10 +75,7 @@
     </div>
     <hr>
     
-  <script type="text/javascript">
-    window.__ver = "?v=27"
-  </script>
   
-  <script type="module" src="src/main.js?v=27"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

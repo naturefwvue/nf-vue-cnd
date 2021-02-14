@@ -1,23 +1,5 @@
-// 同步加载的方式
-const myImport2 = (url) => {
-  return new Promise((resolve, reject) => {
-    const ver = window.__ver || ''
-    const baseUrl = window.__basrUrl || '/src/'
-    Promise.all([
-      axios.get(baseUrl + url + '.html' + ver),
-      import(baseUrl + url + '.js' + ver)
-    ]).then((req) => {
-      resolve({
-        template: req[0].data,
-        props: req[1].default.props,
-        setup: req[1].default.setup
-      })
-    })
-  })
-}
-
-// 加载html和js
-const myImport = (url) => {
+// 直接放在Window里面好了。。。
+window.myImport = (url) => {
   return new Promise((resolve, reject) => {
     const ver = window.__ver || ''
     const baseUrl = window.__basrUrl || '/src/'
@@ -37,5 +19,3 @@ const myImport = (url) => {
     })
   })
 }
-
-export default myImport
