@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => myImport('home.js')
+    component: () => myImport('views/home')
   },
   {
     path: '/state',
