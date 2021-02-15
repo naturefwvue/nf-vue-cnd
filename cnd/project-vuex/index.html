@@ -21,7 +21,7 @@
         basrUrl = '/nf-vue-cnd/cnd/project-vuex/src/'
         break
     }
-    window.__ver = '?v=29'
+    window.__ver = '?v=44'
     window.__basrUrl = basrUrl
 
   </script>
@@ -44,7 +44,7 @@
     #nav a.router-link-exact-active {
       color: #42b983;
     }
-    </style>
+  </style>
 </head>
 <body>
   <div>
@@ -59,6 +59,7 @@
         <router-link :to="{name:'getter'}">getter 的演示</router-link>&nbsp;&nbsp;&nbsp;
         <router-link :to="{name:'setter'}">setter 的演示</router-link>&nbsp;&nbsp;&nbsp;
         <router-link :to="{name:'action'}">action 的演示</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'module'}">module 的演示</router-link>&nbsp;&nbsp;&nbsp;
       </p>
       <hr>
       <div style="text-align: left;margin-left: 200px;">
@@ -68,7 +69,7 @@
     <div style="text-align: left;">
       vuex状态演示<br>
       模板：<br>
-      $store - count ：{{$store.state.count}} <br>
+      $store ：{{$store.state}} <br>
       $store - myObject ：{{$store.state.myObject}}<br>
      
       <el-button type="primary" @click="setCount">更新状态</el-button><br>

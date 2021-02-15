@@ -1,6 +1,8 @@
 
 import { Set_Count, Set_Count_sy } from './mutation-types.js'
 
+import user from './user.js'
+
 const myPlugin = store => {
   console.log('插件--store', store)
   // 当 store 初始化后调用
@@ -108,5 +110,8 @@ export default Vuex.createStore({
     }
   },
   modules: {
+    myObject: user,
+    user: user,
+    person: user
   }
 })

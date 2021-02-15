@@ -30,6 +30,11 @@ const routes = [
     path: '/action',
     name: 'action',
     component: () => myImport('views/05action')
+  },
+  {
+    path: '/module',
+    name: 'module',
+    component: () => myImport('views/06module')
   }
 ]
 
