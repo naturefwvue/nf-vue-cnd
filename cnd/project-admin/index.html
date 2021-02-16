@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> CDN模式下的工程化开发的模板 </title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
+  <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
+  <link href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css" rel="stylesheet">
+  <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
+  <!--axios-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript">
+    // 假定 src在网站根目录
+    let basrUrl = '/src/' 
+    // 判断所处网站，确定基础url
+    switch (window.location.origin) {
+      case 'https://naturefwvue.github.io': //github
+        basrUrl = '/nf-vue-cnd/cnd/project-template/src/'
+        break
+    }
+    window.__ver = '?v=8'
+    window.__basrUrl = basrUrl
+
+  </script>
+  <script type="module" src="src/script/appImport.js"></script>
+  <style>
+    .el-header, .el-footer {
+      background-color: #B3C0D1;
+      color: #333;
+      text-align: center;
+      line-height: 60px;
+    }
+
+    .el-aside {
+      background-color: #92969b;
+      color: #333;
+      text-align: left;
+    }
+
+    .el-main {
+      background-color: #fafafa;
+      color: #333;
+      text-align: left;
+    }
+
+    body > .el-container {
+      margin-bottom: 40px;
+    }
+
+    .el-container:nth-child(5) .el-aside,
+    .el-container:nth-child(6) .el-aside {
+      line-height: 260px;
+    }
+
+    .el-container:nth-child(7) .el-aside {
+      line-height: 320px;
+    }
+    </style>
+</head>
+<body>
+  <div>
+    这里是CDN仿工程化开发的后台管理... 如果你没看到“首页”的内容，说明网页没有在网站的更目录。
+  </div>
+  <div id="app">
+    <div>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-container>
+          <el-aside width="200px">
+            <!--导航-->
+            <router-view name="naveMenu"></router-view>
+          </el-aside>
+          <el-container>
+            <el-main>
+              <!--动态标签-->
+              <router-view name="tabs"></router-view><nfTabs/>
+              <!--列表页面-->
+              <router-view></router-view>
+            </el-main>
+            <el-footer>Footer</el-footer>
+          </el-container>
+        </el-container>
+    </el-container>
+    </div>
+  </div>
+    
+  
+  <script type="module" src="src/main.js?v=1"></script>
+</body>
+</html>
+

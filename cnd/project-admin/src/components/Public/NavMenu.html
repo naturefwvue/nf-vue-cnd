@@ -1,0 +1,26 @@
+<!--竖状菜单导航-->
+<el-menu
+  :uniqueOpened="true"
+  :default-active="1"
+  class="el-menu-vertical-demo"
+  @open="handleOpen"
+  @close="handleClose"
+  @select="handleSelect"
+  background-color="#545c64"
+  text-color="#fff"
+  active-text-color="#ffd04b">
+    <el-submenu index="1">
+      <template #title>
+        <i class="el-icon-location"></i>
+        <span>支撑平台</span>
+      </template>
+      <el-menu-item v-for="(item) in moduleList"
+        :key="item.moduleId"
+        :index="item.moduleId">
+        {{item.title}}
+      </el-menu-item>
+      <el-menu-item index="1-2">
+        配置信息
+      </el-menu-item>
+    </el-submenu>
+</el-menu>
