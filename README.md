@@ -24,7 +24,7 @@ CDN 的工程化开发的模板。
 详细内容：  
 <https://github.com/naturefwvue/nf-vue-cnd/tree/main/cnd/project-admin>
 
-在线演示：
+在线演示：  
 <https://naturefwvue.github.io/nf-vue-cnd/cnd/project-admin/>  
 
 ### cnd/project （简单使用）
@@ -34,7 +34,7 @@ CDN的基础使用方式。
 详细内容：  
 <https://github.com/naturefwvue/nf-vue-cnd/tree/main/cnd/project>
 
-在线演示：
+在线演示：  
 <https://naturefwvue.github.io/nf-vue-cnd/cnd/project/>  
 
 ### cnd/project-vuex （状态管理）
@@ -44,7 +44,7 @@ Vuex状态管理相关的尝试
 详细内容：  
 <https://github.com/naturefwvue/nf-vue-cnd/tree/main/cnd/project-vuex>
 
-在线演示：
+在线演示：  
 <https://naturefwvue.github.io/nf-vue-cnd/cnd/project-vuex/>  
 
 ### cnd/project-axios （ajax和后端通信）
@@ -54,7 +54,7 @@ axios相关的尝试
 详细内容：  
 <https://github.com/naturefwvue/nf-vue-cnd/tree/main/cnd/project-axios>  
 
-在线演示：
+在线演示：  
 <https://naturefwvue.github.io/nf-vue-cnd/cnd/project-axios/>  
 
 ### cnd/init
