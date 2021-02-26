@@ -6,7 +6,7 @@ const routes = [
     // component: () => myImport('views/home')
     components: {
       default: () => myImport('views/home'),
-      naveMenu: () => myImport('components/public/NavMenu'),
+      naveMenu: () => myImport('components/public/navMenu'),
       tabs: () => myImport('components/public/nfTabs')
     } 
     
@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/About',
     name: 'About',
-    component: () => myImport('components/public/NavMenu')
+    component: () => myImport('components/public/navMenu')
   },
   {
     path: '/module/:moduleId',
