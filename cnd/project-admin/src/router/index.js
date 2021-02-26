@@ -21,10 +21,10 @@ const routes = [
     name: 'module',
     meta: { title: '列表页面' },
     props: true,
-    // component: () => myImport('views/PackList'),
+    // component: () => myImport('views/packList'),
     components: {
-      default: () => myImport('views/PackList'),
-      naveMenu: () => myImport('components/public/NavMenu'),
+      default: () => myImport('views/packList'),
+      naveMenu: () => myImport('components/public/navMenu'),
       tabs: () => myImport('components/public/nfTabs')
     },
     children: [

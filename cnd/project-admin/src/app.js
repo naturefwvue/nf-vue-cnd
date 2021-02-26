@@ -19,6 +19,13 @@ export default {
       console.log(key, keyPath)
     }
 
+    // 跳转到首页
+    const router = VueRouter.useRouter()
+
+    // 路由跳转
+    router.push({
+      name: 'Home'
+    })
     return {
       handleOpen,
       handleClose
