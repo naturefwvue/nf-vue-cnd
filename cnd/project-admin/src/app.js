@@ -4,8 +4,8 @@
 export default {
   name: 'app',
   components: {
-    NavMenu: Vue.defineAsyncComponent(myImport('components/public/NavMenu')),
-    // NavMenu: Vue.defineAsyncComponent(() => import('./components/Public/NavMenu.js')),
+    NavMenu: Vue.defineAsyncComponent(myImport('components/public/navMenu')),
+    // NavMenu: Vue.defineAsyncComponent(() => import('./components/Public/navMenu.js')),
     nfTabs: Vue.defineAsyncComponent(() => myImport('components/Public/nfTabs'))
   },
   setup() {
