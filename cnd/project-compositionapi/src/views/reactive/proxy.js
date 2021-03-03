@@ -1,4 +1,8 @@
 const reactive = Vue.reactive
+const isProxy = Vue.isProxy
+const isReactive = Vue.isReactive
+const isReadonly = Vue.isReadonly
+const readonly = Vue.readonly
 
 const test = () => {
   // js对象
@@ -62,8 +66,12 @@ const test = () => {
 
 import mapForm from '/src/store/map-form.js'
 
+/**
+ * ES6的Proxy
+ * 自己定义一个Proxy，看看效果
+*/
 export default {
-  name: 'reactive-log',
+  name: 'reactive-Proxy',
   template: ``,
   setup () {
     const {
@@ -77,8 +85,10 @@ export default {
     console.log('retObject', retObject)
     console.log('retArray', retArray)
     
-    const myret = myReactive(retObject)
+    const myret = myReactive({title:'222'})
     console.log('myret', myret)
+    const myProxyReactive = myReactive(retObject)
+    console.log('myProxyReactive', myProxyReactive)
 
     setTimeout(() => {
       retObject.name = 'retObject'
@@ -90,6 +100,36 @@ export default {
     const { addData } = mapForm()
 
     return {
+      obj: {
+        obj1: isProxy(object),
+        obj2: isReactive(object),
+        obj3: isReadonly(object)
+      },
+      reto: {
+        obj1: isProxy(retObject),
+        obj2: isReactive(retObject),
+        obj3: isReadonly(retObject)
+      },
+      reta: {
+        obj1: isProxy(retArray),
+        obj2: isReactive(retArray),
+        obj3: isReadonly(retArray)
+      },
+      myproxy: {
+        obj1: isProxy(myret),
+        obj2: isReactive(myret),
+        obj3: isReadonly(myret)
+      },
+      myproxyReactive: {
+        obj1: isProxy(myProxyReactive),
+        obj2: isReactive(myProxyReactive),
+        obj3: isReadonly(myProxyReactive)
+      },
+      readRet: {
+        obj1: isProxy(readonly(retObject)),
+        obj2: isReactive(readonly(retObject)),
+        obj3: isReadonly(readonly(retObject))
+      },
       addData, // 弹窗添加数据
       object,
       retObject,

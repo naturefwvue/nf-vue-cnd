@@ -8,27 +8,32 @@ const routes = [
   {
     path: '/reactive',
     name: 'reactive',
-    component: () => myImport('views/reactive'),
+    component: () => myImport('views/reactive/index'),
     children: [
-      {
-        path: 'log',
-        name: 'ret-log',
-        component: () => myImport('views/reactive-log')
+      { // reactive 响应式
+        path: 'reactive',
+        name: 'ret-reactive',
+        component: () => myImport('views/reactive/reactive')
       }, 
-      {
+      { // readonly 只读
+        path: 'readonly',
+        name: 'ret-readonly',
+        component: () => myImport('views/reactive/readonly')
+      }, 
+      { // es6的Proxy
         path: 'proxy',
         name: 'ret-proxy',
-        component: () => myImport('views/reactive-proxy')
+        component: () => myImport('views/reactive/proxy')
       },
       {
-        path: 'log',
+        path: 'let',
         name: 'ret-let',
-        component: () => myImport('views/reactive-proxy')
+        component: () => myImport('views/reactive/let')
       },
-      {
-        path: 'log',
-        name: 'ret-let',
-        component: () => myImport('views/reactive-proxy')
+      { // 验证对象类型
+        path: 'check',
+        name: 'ret-check',
+        component: () => myImport('views/reactive/check')
       }
       
     ]
