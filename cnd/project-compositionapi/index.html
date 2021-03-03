@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="public/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Vue3的CompositionAPI的演示 </title>
+  <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+  <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
+  <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
+  <link href="https://unpkg.com/element-plus@1.0.2-beta.30/lib/theme-chalk/index.css" rel="stylesheet">
+  <script src="https://unpkg.com/element-plus@1.0.2-beta.30/lib/index.full.js"></script>
+  <!--axios-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/javascript">
+    // 假定 src在网站根目录
+    let basrUrl = '/src/' 
+    // 判断所处网站，确定基础url
+    switch (window.location.origin) {
+      case 'https://naturefwvue.github.io': //github
+        basrUrl = '/nf-vue-cnd/cnd/project-compositionapi/src/'
+        break
+    }
+    window.__ver = '?v=9'
+    window.__basrUrl = basrUrl
+
+  </script>
+  <script type="module" src="/src/script/appImport.js"></script>
+  <style>
+    #app {
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+    }
+    #nav {
+      padding: 30px;
+    }
+    #nav a {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    #nav a.router-link-exact-active {
+      color: #42b983;
+    }
+    </style>
+</head>
+<body>
+  <div>
+    演示一下Vue3的CompositionAPI的各种用法。
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">源码</a>
+    友情链接：
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">CDN工程化的模板</a> | 
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-admin/">CDN工程化的admin</a> | 
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-vuex/">状态管理演示</a> | 
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-compositionapi/">CompositionAPI演示</a> | 
+    
+  </div>
+  <div id="app">
+    <div id="nav">
+      <p>
+        <router-link :to="{name:'Home'}">首页</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'reactive'}">reactive</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'ref'}">ref</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'store'}">setup</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'store'}">监听和计算属性</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'store'}">生命周期</router-link>&nbsp;&nbsp;&nbsp;
+        <router-link :to="{name:'store'}">代码复用</router-link>&nbsp;&nbsp;&nbsp;
+      </p>
+      <hr>
+      <div style="text-align: left;margin-left: 100px;height: 450px;">
+        <router-view></router-view>
+      </div>
+    </div>
+    <hr>
+    <div style="text-align: left;">
+      vuex状态演示<br>
+      $store.state ：{{$store.state}} <br>
+     
+      <el-button type="primary" @click="setCount">更改状态</el-button><br>
+    </div>
+    
+  
+  <script type="module" src="/src/main.js?v=4"></script>
+</body>
+</html>
+
