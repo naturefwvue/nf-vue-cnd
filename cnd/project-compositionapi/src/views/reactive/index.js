@@ -25,8 +25,6 @@ export default {
       title: ''
     })
 
-    const myloading = ref(false)
-
     watch(() => formState.id ,(v1, v2) => {
       if (v1 === 0) {
         // 添加状态，重置model
@@ -39,13 +37,11 @@ export default {
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.1)'
         })
-        myloading.value = true
         loadData().then((msg) => {
           ElementPlus.ElMessage.success({
             message: msg,
             type: 'success'
           })
-          myloading.value = false
           loading.close()
           Object.assign(model, formState.model)
         })

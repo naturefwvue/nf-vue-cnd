@@ -4,6 +4,16 @@ const ref = Vue.ref
 const toRef = Vue.toRef
 
 const test = () => {
+  // reactive 的对象，
+  const retObject = reactive({
+    name: 'jyk',
+    age: 18,
+    contacts: {
+      QQ: 11111,
+      phone: 123456789
+    }
+  })
+
   // js对象的只读响应式
   const readonlyObject = readonly({
     name: 'jyk',
@@ -14,15 +24,6 @@ const test = () => {
     }
   })
 
-  // reactive 的对象，
-  const retObject = reactive({
-    name: 'jyk',
-    age: 18,
-    contacts: {
-      QQ: 11111,
-      phone: 123456789
-    }
-  })
 
   // reactive 只读的代理
   const readonlyReactive = readonly(retObject)

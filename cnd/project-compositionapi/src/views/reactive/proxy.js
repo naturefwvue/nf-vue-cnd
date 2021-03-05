@@ -1,8 +1,3 @@
-const reactive = Vue.reactive
-const isProxy = Vue.isProxy
-const isReactive = Vue.isReactive
-const isReadonly = Vue.isReadonly
-const readonly = Vue.readonly
 
 const test = () => {
   // js对象
@@ -15,126 +10,84 @@ const test = () => {
     }
   }
 
-  // reactive的对象
-  const retObject = reactive({
-    name: 'jyk',
-    age: 18,
-    contacts: {
-      QQ: 11111,
-      phone: 123456789
-    }
-  })
-
-  // reactive的数组
-  const retArray = reactive([
-    {
-      name: 'jyk',
-      age: 18
-    },
-    {
-      name: 'jyk111',
-      age: 19
-    }
-  ])
-
-  const myReactive = (obj) => {
-    const pp = new Proxy(obj, {
+  /**
+   * 模仿reactive，定义一个Proxy实例，观察拦截情况
+   * @param {*} _target 原型对象
+   */
+  const myProxy = (_target) => {
+    const proxy = new Proxy(_target, {
       get: function (target, key, receiver) {
-        if (typeof key !== 'symbol') {
-          console.log(`getting ${key}!`, target[key])
-        } else {
-          console.log('getting symbol:', key, target[key])
-        }
+        console.log('getting',key, '：', target[key])
+        // 调用原型方法
         return Reflect.get(target, key, receiver)
       },
       set: function (target, key, value, receiver) {
-        console.log(`setting ${key}：${value}!`)
+        console.log(`setting ${key} ： ${value}`)
+        // 调用原型方法
         return Reflect.set(target, key, value, receiver)
       }
     })
-
-    return pp
+    // 返回实例
+    return proxy
   }
 
   return {
     object,
-    retObject,
-    retArray,
-    myReactive
+    myProxy
   }
 }
-
-import mapForm from '/src/store/map-form.js'
 
 /**
  * ES6的Proxy
  * 自己定义一个Proxy，看看效果
 */
 export default {
-  name: 'reactive-Proxy',
-  template: ``,
+  name: 'es6-Proxy',
+  template: `
+    <div>
+      ES6的proxy<br>
+      自己定义的myProxy：{{testProxy}} <br><br>
+      <el-button @click="update" type="primary">修改状态</el-button>
+    </div>
+  `,
   setup () {
     const {
       object,
-      retObject,
-      retArray,
-      myReactive
+      myProxy
     } = test()
 
     console.log('object', object)
-    console.log('retObject', retObject)
-    console.log('retArray', retArray)
+
+    // 定义自己写的Proxy
+    const testProxy = myProxy({
+      name: 'jyk',
+      age: 18,
+      contacts: {
+        QQ: 11111,
+        phone: 123456789
+      }
+    })
+    console.log('自己定义的Proxy实例：')
+    console.log(testProxy)
+
+    // 测试拦截情况
+    testProxy.name = '新的名字'
+    console.log(testProxy.name)
+
+    // 修改数据
+    const update = () => {
+      // retObject.name = 'reactive修改name'
+      testProxy['newprops'] = '新增一个属性：' + Math.random()
+      testProxy.name = '自定义的拦截修改name' + Math.random()
+      testProxy.contacts.QQ = 123456
+      // 新增属性
+      // myProxyReactive['new'] = '这是一个新属性' + Math.random()
+    }
     
-    const myret = myReactive({title:'222'})
-    console.log('myret', myret)
-    const myProxyReactive = myReactive(retObject)
-    console.log('myProxyReactive', myProxyReactive)
-
-    setTimeout(() => {
-      retObject.name = 'retObject'
-      // myret.name = 'myret2222'
-      console.log('myret - settimeout', myret)
-      console.log('retObject - settimeout', retObject)
-    },2000)
-
-    const { addData } = mapForm()
-
     return {
-      obj: {
-        obj1: isProxy(object),
-        obj2: isReactive(object),
-        obj3: isReadonly(object)
-      },
-      reto: {
-        obj1: isProxy(retObject),
-        obj2: isReactive(retObject),
-        obj3: isReadonly(retObject)
-      },
-      reta: {
-        obj1: isProxy(retArray),
-        obj2: isReactive(retArray),
-        obj3: isReadonly(retArray)
-      },
-      myproxy: {
-        obj1: isProxy(myret),
-        obj2: isReactive(myret),
-        obj3: isReadonly(myret)
-      },
-      myproxyReactive: {
-        obj1: isProxy(myProxyReactive),
-        obj2: isReactive(myProxyReactive),
-        obj3: isReadonly(myProxyReactive)
-      },
-      readRet: {
-        obj1: isProxy(readonly(retObject)),
-        obj2: isReactive(readonly(retObject)),
-        obj3: isReadonly(readonly(retObject))
-      },
-      addData, // 弹窗添加数据
       object,
-      retObject,
-      retArray,
-      myret:Vue.toRaw(myret)
+      testProxy,
+      update
     }
   }
 }

@@ -21,11 +21,36 @@
         basrUrl = '/nf-vue-cnd/cnd/project-compositionapi/src/'
         break
     }
-    window.__ver = '?v=13'
+    window.__ver = '?v=22'
     window.__basrUrl = basrUrl
-
   </script>
-  <script type="module" src="/src/script/appImport.js"></script>
+
+  <script type="text/javascript">
+    // 封装一个异步加载动态组件的方法
+    window.myImport = (url) => {
+      return new Promise((resolve, reject) => {
+        const ver = window.__ver
+        const _url = window.__basrUrl + url
+        // 先加载js
+        import(_url + '.js' + ver).then((resjs) => {
+          const js = resjs.default
+          if (js.template === '') {
+            // 如果模板是空的，表示需要加载html文件作为模板
+            // 此处可以做缓存。
+            axios
+              .get(_url + '.html' + ver)
+              .then((resHTML) => {
+                js.template = resHTML.data
+                resolve(js)
+              })
+          } else {
+            // 否则直接使用js注册组件
+            resolve(js)
+          }
+        })
+      })
+    }
+  </script>
   <style>
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -44,13 +69,13 @@
     #nav a.router-link-exact-active {
       color: #42b983;
     }
-    </style>
+  </style>
 </head>
 <body>
-  <div>
+  <div id="nav">
     演示一下Vue3的CompositionAPI的各种用法。
-    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">源码</a>
-    友情链接：
+    <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">查看源码</a>
+    <br> 友情链接：
     <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">CDN工程化的模板</a> | 
     <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-admin/">CDN工程化的admin</a> | 
     <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-vuex/">状态管理演示</a> | 
@@ -82,7 +107,23 @@
     </div>
     
   
-  <script type="module" src="/src/main.js?v=4"></script>
+  <script type="module">
+    // 加载文件的话，有时候会卡，不知道为啥卡。。。
+    const _url = window.__basrUrl
+    Promise.all([
+      import(_url + 'app.js' + __ver),
+      import(_url + 'store/index.js' + __ver),
+      import(_url + 'router/index.js' + __ver)
+    ]).then((res) => {
+      // 创建vue3的实例
+      const app = Vue.createApp(res[0].default)
+        .use(res[1].default) // 挂载vuex
+        .use(res[2].default) // 挂载路由
+        .use(ElementPlus) // 加载ElementPlus
+        .mount('#app') // 挂载Vue的app实例
+    })
+
+  </script>
 </body>
 </html>
 

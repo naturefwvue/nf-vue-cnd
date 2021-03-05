@@ -3,15 +3,17 @@
   js 单层对象：{{object1}} <br><br>
   js 深层对象：{{object2}} <br><br>
   reactive 单层对象：{{retObject1}} <br><br>
-  reactive 深层对象：{{retObject2}} <br><br>
+  reactive 单独的name：{{name}} <br><br>
+  reactive 属性的name：{{retObject2.name}} <br><br>
+  reactive 深层对象QQ：{{retObject2.contacts.QQ}} <br><br>
   reactive 数组：{{retArray}} <br><br>
   shallowReactive 单层对象：{{shallowRet1}} <br><br>
   shallowReactive 单层对象：{{shallowRet2}} <br><br>
+  shallowReactive 深层对象QQ：{{shallowRet2.contacts.QQ}} <br><br>
   markRawObject 标记对象：{{markRawObject}} <br><br>
   markRawReactive 对象不响应：{{markRawReactive}} <br><br>
 
   <el-button @click="update" type="primary">修改状态</el-button>
 
-  <el-button @click="updateData(123)" type="primary">编辑</el-button>
 </div>
   

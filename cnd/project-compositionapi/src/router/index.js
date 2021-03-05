@@ -10,6 +10,16 @@ const routes = [
     name: 'reactive',
     component: () => myImport('views/reactive/index'),
     children: [
+      { // es6的Proxy
+        path: 'proxy',
+        name: 'ret-proxy',
+        component: () => myImport('views/reactive/proxy')
+      },
+      { // 用Proxy套个娃
+        path: 'proxy',
+        name: 'ret-proxy-ret',
+        component: () => myImport('views/reactive/proxy-reactive')
+      },
       { // reactive 响应式
         path: 'reactive',
         name: 'ret-reactive',
@@ -20,10 +30,15 @@ const routes = [
         name: 'ret-readonly',
         component: () => myImport('views/reactive/readonly')
       }, 
-      { // es6的Proxy
-        path: 'proxy',
-        name: 'ret-proxy',
-        component: () => myImport('views/reactive/proxy')
+      { // toRaw
+        path: 'toRaw',
+        name: 'ret-toRaw',
+        component: () => myImport('views/reactive/toraw')
+      },
+      { // toRaw
+        path: 'MarkRaw',
+        name: 'ret-MarkRaw',
+        component: () => myImport('views/reactive/markraw')
       },
       {
         path: 'let',
