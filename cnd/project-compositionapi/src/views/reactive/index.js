@@ -3,7 +3,6 @@ import mapForm from '/src/store/map-form.js'
 
 const watch = Vue.watch
 const reactive = Vue.reactive
-const ref = Vue.ref
 
 /**
  * reactive的导航页面

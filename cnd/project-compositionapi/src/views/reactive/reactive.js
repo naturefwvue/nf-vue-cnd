@@ -133,11 +133,20 @@ export default {
       // retObject2.name = 'reactive2'
       // retObject2.contacts.QQ = 123 +  Math.random()
       // retArray,
-      // shallowRet1.name = 'shallow浅层name'
-      // shallowRet2.name = 'shallow深层响应name' // + Math.random()
-      shallowRet2.contacts.QQ = Math.random()
-      // markRawObject.name = '原对象标记不响应'
-      // markRawReactive.name = 'reactive标记不响应'
+      Object.assign(retObject1, {name: '合并', age: 111, newp: '新属性'})
+
+  // retArray.length = 0 // 容易照成闪烁
+  setTimeout(() => {
+    const newArray = [
+      { name: '11', age: 18 },
+      { name: '22', age: 18 },
+      { name: '33', age: 18 }
+    ]
+    // 可以防止闪烁
+    retArray.length = 0
+    retArray.push(...newArray)
+  }, 1000);
+
     }
 
     return {

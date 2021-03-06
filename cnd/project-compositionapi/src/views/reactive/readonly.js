@@ -7,31 +7,30 @@ const test = () => {
   // reactive 的对象，
   const retObject = reactive({
     name: 'jyk',
-    age: 18,
     contacts: {
       QQ: 11111,
       phone: 123456789
     }
   })
 
-  // js对象的只读响应式
-  const readonlyObject = readonly({
+  const obj = {
     name: 'jyk',
-    age: 18,
     contacts: {
       QQ: 11111,
       phone: 123456789
     }
-  })
-
+  }
+  // js对象的只读响应式
+  const readonlyObject = readonly(obj)
 
   // reactive 只读的代理
   const readonlyReactive = readonly(retObject)
   
   return {
+    obj,
     readonlyObject,
-    readonlyReactive,
-    retObject
+    retObject,
+    readonlyReactive
   }
 }
 
@@ -41,12 +40,22 @@ const test = () => {
 */
 export default {
   name: 'reactive-readonly',
-  template: ``,
+  template: `
+    <div>
+      展示 readonly <br>
+      JavaScript 对象的只读代理：{{readonlyObject}} <br><br>
+      reactive 的 只读代理：{{readonlyReactive}}  <br><br>
+      reactive 对象：{{retObject}} <br><br>
+
+      <el-button @click="update" type="primary">修改状态</el-button>
+    </div>
+  `,
   setup () {
     const {
+      obj,
       readonlyObject,
-      readonlyReactive,
-      retObject
+      retObject,
+      readonlyReactive
     } = test()
 
     console.log('readonlyObject', readonlyObject)
@@ -60,16 +69,24 @@ export default {
 
     // 修改数据
     const update = () => {
-      readonlyObject.name = '改只读对象的name'
-      readonlyObject.contacts.QQ = 123
-      readonlyReactive.name = '改只读reactive的name'
-      readonlyReactive.contacts.QQ = 345
-      retObject.name = '改原型reactive的name'
-      retObject.contacts.QQ = 789
+    // 可以影响readonlyObject.name的值，但是模板不会刷新
+    obj.name = '修改对象原型的name'
+    // 不会修改，有警告
+    readonlyObject.name = '改只读纯对象的name'
+    // 不会修改，有警告
+    readonlyObject.contacts.QQ = 1232222
+    // 不会修改，有警告
+    readonlyReactive.name = '改只读reactive的name'
+    // 不会修改，有警告
+    readonlyReactive.contacts.QQ = 345
+    // 可以修改 readonly代理的值，并且可以更新模板
+    retObject.name = '改原型reactive的name'
+    // 可以修改 readonly代理的值，并且可以更新模板
+    retObject.contacts.QQ = 789
       // ref
-      refName.value = 'ref改的name'
-      refContacts.value.phone = 'ref改的 phone'
-      refQQ.value = 'ref改的11'
+      // refName.value = 'ref改的name'
+      // refContacts.value.phone = 'ref改的 phone'
+      // refQQ.value = 'ref改的11'
 
     }
 

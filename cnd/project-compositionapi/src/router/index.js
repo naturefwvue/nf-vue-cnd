@@ -20,7 +20,7 @@ const routes = [
         name: 'ret-proxy-ret',
         component: () => myImport('views/reactive/proxy-reactive')
       },
-      { // reactive 响应式
+      { // reactive 响应式 
         path: 'reactive',
         name: 'ret-reactive',
         component: () => myImport('views/reactive/reactive')
@@ -29,6 +29,11 @@ const routes = [
         path: 'readonly',
         name: 'ret-readonly',
         component: () => myImport('views/reactive/readonly')
+      }, 
+      { // readonly 只读
+        path: 'shallowReadonly',
+        name: 'ret-readonly-shallow',
+        component: () => myImport('views/reactive/readonly-shallow')
       }, 
       { // toRaw
         path: 'toRaw',
