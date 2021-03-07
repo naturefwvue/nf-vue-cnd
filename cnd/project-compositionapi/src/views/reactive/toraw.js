@@ -1,35 +1,12 @@
-const reactive = Vue.reactive
 const toRaw = Vue.toRaw
 
-const test = () => {
-  // js对象，深层
-  const object = {
-    id: 111,
-    name: 'jyk',
-    age: 18,
-    contacts: {
-      QQ: 11111,
-      phone: 123456789
-    }
-  }
-
-  // reactive 的对象，深层
-  const retObject = reactive({
-    id: 111,
-    name: 'jyk',
-    age: 18,
-    contacts: {
-      QQ: 11111,
-      phone: 123456789
-    }
-  })
-
-  
-  return {
-    object,
-    retObject
-  }
-}
+import { 
+  person, // object 对象
+  objectReactive, // 普通的 object  的 reactive 代理
+  objectShallowReactive, // reactive 的 shallowReactive 代理
+  objectReadonly, // 普通的 object 的 readonly 代理
+  objectShallowReadonly
+} from './person.js'
 
 import indexedDB from '../../script/nf-indexedDB.js'
 
@@ -40,43 +17,47 @@ import indexedDB from '../../script/nf-indexedDB.js'
 */
 export default {
   name: 'reactive-toRaw',
-  template: ``,
+  template: `
+    <div>
+      展示 toRaw <br>
+
+      <el-button @click="update" type="primary">修改属性</el-button>
+
+    </div>
+  `,
   setup () {
-    const {
-      object,
-      retObject
-    } = test()
 
     const { setup, addObject} = indexedDB()
 
-    // 原生对象
-    console.log('object', object)
-    console.log('retObject', retObject)
-
+    console.log('reacive 的原型', toRaw(objectReactive))
+    console.log('shallowReactive 的原型', toRaw(objectShallowReactive))
+    console.log('readonly 的原型', toRaw(objectReadonly))
+    console.log('shallowReadonly 的原型', toRaw(objectShallowReadonly))
+    
     // 转为json
-    const json1 = JSON.stringify(object)
+    const json1 = JSON.stringify(person)
     console.log('json1', json1)
-    const json2 = JSON.stringify(toRaw(retObject))
+    const json2 = JSON.stringify(toRaw(objectReactive))
     console.log('json2', json2)
-    const json3 = JSON.stringify(retObject)
+    const json3 = JSON.stringify(objectReactive)
     console.log('json3', json3)
     
     // 保存到 
     const update = () => {
       const storage = window.sessionStorage
       //写入 reactive
-      storage['test-reactive'] = retObject
+      storage['test-reactive'] = objectReactive
       storage['test-json'] = json3
       // 直接存入 indexedDB会报错
-      // addObject('reactive', retObject)
+      // addObject('reactive', objectReactive)
       // 存入原型
-      addObject('reactive', toRaw(retObject))
+      addObject('reactive', toRaw(objectReactive))
       
     }
 
     return {
-      object,
-      retObject,
+      objectReactive,
+      objectReadonly,
       update
     }
   }

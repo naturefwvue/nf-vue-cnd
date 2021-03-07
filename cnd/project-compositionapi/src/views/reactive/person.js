@@ -5,7 +5,7 @@ const readonly = Vue.readonly
 const shallowReadonly = Vue.shallowReadonly
 
 /**
- * 普通js对象的person
+ * 普通js对象的 person
  */
 export const person = {
   name: 'jyk',
@@ -17,9 +17,14 @@ export const person = {
 }
 
 /**
+ * person 的 reactive 代理
+ */
+export const personReactive = reactive(person)
+
+/**
  * js对象的 reactive 响应式代理
  */
-export const personReactive = reactive({
+export const objectReactive = reactive({
   name: 'jykReactive',
   age: 18,
   contacts: {
@@ -31,7 +36,7 @@ export const personReactive = reactive({
 /**
  * js对象的 shallowReactive 响应式代理
  */
-export const personShallowReactive = shallowReactive({
+export const objectShallowReactive = shallowReactive({
   name: 'jykShallowReactive',
   age: 18,
   contacts: {
@@ -40,26 +45,26 @@ export const personShallowReactive = shallowReactive({
   }
 })
 
-/**
- * js对象的 readonly 响应式代理
- */
-export const personReadonly = readonly({
-  name: 'jykReadonly',
-  age: 18,
-  contacts: {
-    QQ: 11111,
-    phone: 123456789
-  }
-})
+// ================================================
 
 /**
- * js对象的 shallowReadonly 响应式代理
+ * person 的 readonly 代理
  */
-export const personShallowReadonly = shallowReadonly({
-  name: 'jykShallowReadonly',
-  age: 18,
-  contacts: {
-    QQ: 11111,
-    phone: 123456789
-  }
-})
+export const objectReadonly = readonly(person)
+
+/**
+ * reactive 的 readonly 代理
+ */
+export const reactiveReadonly = readonly(objectReactive)
+
+/**
+ * person 的 shallowReadonly 响应式代理
+ */
+export const objectShallowReadonly = shallowReadonly(person)
+
+/**
+ * reactive 的 shallowReadonly 响应式代理
+ */
+export const reactiveShallowReadonly = shallowReadonly(objectReactive)
+
+// ================================================

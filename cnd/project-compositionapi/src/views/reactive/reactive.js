@@ -1,11 +1,11 @@
 const reactive = Vue.reactive
 
-import { person, personReactive } from './person.js'
+import { person, personReactive, objectReactive } from './person.js'
 
 /**
- * 定义 reactive ，看本质
- * 定义 浅层响应 ，看本质
- * 标记 不响应
+ * reactive 的结构
+ * 属性的深层响应性
+ * 
 */
 export default {
   name: 'reactive-reactive',
@@ -13,27 +13,31 @@ export default {
     <div>
       展示 reactive <br>
       js 对象：{{person}} <br><br>
-      reactive 对象：{{personReactive}} <br><br>
-      reactive 的name属性：{{personReactive.name}} <br><br>
-      reactive 的contacts属性 的 QQ属性：{{personReactive.contacts.QQ}} <br><br>
+      reactive 对象：{{objectReactive}} <br><br>
+      reactive 的name属性：{{objectReactive.name}} <br><br>
+      reactive 的contacts属性 的 QQ属性：{{objectReactive.contacts.QQ}} <br><br>
    
       单独的 name：{{name}} （没有相应）<br><br>
       单独的 contacts：{{contacts}} （有响应） <br><br>
    
       reactive 数组：{{reactiveArray}} <br><br>
 
-      <el-button @click="update" type="primary">修改状态</el-button>
+      <el-button @click="update" type="primary">修改属性</el-button><br><br>
+      <el-button @click="setReactive" type="primary">整体赋值</el-button><br><br>
     </div>
   `,
   setup () {
+    // 查看 reactive 实例结构
+    console.log('reactive', personReactive)
+    // 获取嵌套对象属性
+    const contacts = personReactive.contacts
+    console.log('contacts属性：', contacts) // 因为深层响应，所以依然有响应性
+    // 获取简单类型的属性
+    let name = personReactive.name 
+    console.log('name属性：', name) // 属性是简单类型的，所以失去响应性
+
     // js对象
     console.log('person', person)
-    // 对象的 reactive 代理
-    console.log('personReactive', personReactive)
-
-    // 获取属性 
-    const name = personReactive.name // 没有相应性
-    const contacts = personReactive.contacts // 有相应性
 
     // reactive 的数组
     const reactiveArray = reactive([
@@ -48,15 +52,27 @@ export default {
     ])
 
     const update = () => {
-      // object1.name = '对象1' + Math.random()
-      // object2.name = '对象2'
-      // retObject1.name = 'reactive1'
-      // retObject2.name = 'reactive2'
-      // retObject2.contacts.QQ = 123 +  Math.random()
-      // retArray,
-      Object.assign(retObject1, {name: '合并', age: 111, newp: '新属性'})
+      // 修改原型
+      person.name = '修改原型的name' +  Math.random()
+      
+      // 修改 person 的代理 属性
+      personReactive.name = '修改person代理的name属性' +  Math.random()
+      
+      // 修改属性
+      objectReactive.name = '设置代理的name属性' +  Math.random()
+      objectReactive.contacts.QQ = 123 +  Math.random()
+      
+      // 修改结构的属性
+      name = '设置解构的name属性' +  Math.random()
+      contacts.QQ = 123 +  Math.random()
+      // retArray
+      // console.log('现在的person', person)
+    }
 
-      // retArray.length = 0 // 容易照成闪烁
+    const setReactive = () => {
+      // 直接赋值
+      Object.assign(objectReactive, {name: '合并', age: 111, newp: '新属性'})
+      // reactiveArray.length = 0 // 容易照成闪烁
       setTimeout(() => {
         const newArray = [
           { name: '11', age: 18 },
@@ -64,19 +80,20 @@ export default {
           { name: '33', age: 18 }
         ]
         // 可以防止闪烁
-        retArray.length = 0
-        retArray.push(...newArray)
+        reactiveArray.length = 0
+        reactiveArray.push(...newArray)
       }, 1000);
-
     }
 
     return {
-      person,
-      personReactive,
-      name,
-      contacts,
-      reactiveArray,
-      update
+      person, // js对象
+      personReactive, // perosn 套上 reactive
+      objectReactive, // {} 套上 reactive
+      name, // 结构的name属性
+      contacts, // 结构的对象属性
+      reactiveArray, // 数组的响应性
+      update, // 修改属性
+      setReactive // 直接设置
     }
   }
 }

@@ -8,74 +8,74 @@
   </el-row>
   <el-row>
     <el-col :span="7"> object </el-col>
-    <el-col :span="5"> {{obj.obj1}} </el-col>
-    <el-col :span="5"> {{obj.obj2}} </el-col>
-    <el-col :span="5"> {{obj.obj3}} </el-col>
+    <el-col :span="5"> {{obj.check1}} </el-col>
+    <el-col :span="5"> {{obj.check2}} </el-col>
+    <el-col :span="5"> {{obj.check3}} </el-col>
   </el-row>
   <el-row>
     <el-col :span="7"> 自定义Proxy (object) </el-col>
-    <el-col :span="5"> {{myproxy.obj1}} </el-col>
-    <el-col :span="5"> {{myproxy.obj2}} </el-col>
-    <el-col :span="5"> {{myproxy.obj3}} </el-col>
+    <el-col :span="5"> {{myproxy.check1}} </el-col>
+    <el-col :span="5"> {{myproxy.check2}} </el-col>
+    <el-col :span="5"> {{myproxy.check3}} </el-col>
   </el-row>
   <el-row>
     <el-col :span="7"> 自定义Proxy (Reactive) </el-col>
-    <el-col :span="5"> {{myproxyReactive.obj1}} </el-col>
-    <el-col :span="5"> {{myproxyReactive.obj2}} </el-col>
-    <el-col :span="5"> {{myproxyReactive.obj3}} </el-col>
+    <el-col :span="5"> {{myproxyReactive.check1}} </el-col>
+    <el-col :span="5"> {{myproxyReactive.check2}} </el-col>
+    <el-col :span="5"> {{myproxyReactive.check3}} </el-col>
   </el-row>
   <!--对象的reactive-->
   <el-row>
     <el-col :span="7"> reactive (object) </el-col>
-    <el-col :span="5"> {{reto.obj1}} </el-col>
-    <el-col :span="5"> {{reto.obj2}} </el-col>
-    <el-col :span="5"> {{reto.obj3}} </el-col>
+    <el-col :span="5"> {{reto.check1}} </el-col>
+    <el-col :span="5"> {{reto.check2}} </el-col>
+    <el-col :span="5"> {{reto.check3}} </el-col>
   </el-row>
-  <!--数组的reactive-->
+  <!--数组的reactive
   <el-row>
     <el-col :span="7"> reactive (array) </el-col>
-    <el-col :span="5"> {{reta.obj1}} </el-col>
-    <el-col :span="5"> {{reta.obj2}} </el-col>
-    <el-col :span="5"> {{reta.obj3}} </el-col>
+    <el-col :span="5"> {{reta.check1}} </el-col>
+    <el-col :span="5"> {{reta.check2}} </el-col>
+    <el-col :span="5"> {{reta.check3}} </el-col>
+  </el-row>-->
+  <!--浅层响应-->
+  <el-row>
+    <el-col :span="7"> shallowReactive (object) </el-col>
+    <el-col :span="5"> {{shallowRetObj.check1}} </el-col>
+    <el-col :span="5"> {{shallowRetObj.check2}} </el-col>
+    <el-col :span="5"> {{shallowRetObj.check3}} </el-col>
+  </el-row>
+  <el-row>
+    <el-col :span="7"> shallowReactive (Reactive) </el-col>
+    <el-col :span="5"> {{shallowRetRet.check1}} </el-col>
+    <el-col :span="5"> {{shallowRetRet.check2}} </el-col>
+    <el-col :span="5"> {{shallowRetRet.check3}} </el-col>
   </el-row>
   <!--深层只读-->
   <el-row>
     <el-col :span="7"> readonly (object) </el-col>
-    <el-col :span="5"> {{readObj.obj1}} </el-col>
-    <el-col :span="5"> {{readObj.obj2}} </el-col>
-    <el-col :span="5"> {{readObj.obj3}} </el-col>
+    <el-col :span="5"> {{readObj.check1}} </el-col>
+    <el-col :span="5"> {{readObj.check2}} </el-col>
+    <el-col :span="5"> {{readObj.check3}} </el-col>
   </el-row>
   <el-row>
     <el-col :span="7"> readonly (Reactive) </el-col>
-    <el-col :span="5"> {{readRet.obj1}} </el-col>
-    <el-col :span="5"> {{readRet.obj2}} </el-col>
-    <el-col :span="5"> {{readRet.obj3}} </el-col>
-  </el-row>
-  <!--浅层响应-->
-  <el-row>
-    <el-col :span="7"> shallowReactive (object) </el-col>
-    <el-col :span="5"> {{shallowRetObj.obj1}} </el-col>
-    <el-col :span="5"> {{shallowRetObj.obj2}} </el-col>
-    <el-col :span="5"> {{shallowRetObj.obj3}} </el-col>
-  </el-row>
-  <el-row>
-    <el-col :span="7"> shallowReactive (Reactive) </el-col>
-    <el-col :span="5"> {{shallowRetRet.obj1}} </el-col>
-    <el-col :span="5"> {{shallowRetRet.obj2}} </el-col>
-    <el-col :span="5"> {{shallowRetRet.obj3}} </el-col>
+    <el-col :span="5"> {{readRet.check1}} </el-col>
+    <el-col :span="5"> {{readRet.check2}} </el-col>
+    <el-col :span="5"> {{readRet.check3}} </el-col>
   </el-row>
   <!--浅层只读-->
   <el-row>
     <el-col :span="7"> shallowReadonly (object) </el-col>
-    <el-col :span="5"> {{shallowReadObj.obj1}} </el-col>
-    <el-col :span="5"> {{shallowReadObj.obj2}} </el-col>
-    <el-col :span="5"> {{shallowReadObj.obj3}} </el-col>
+    <el-col :span="5"> {{shallowReadObj.check1}} </el-col>
+    <el-col :span="5"> {{shallowReadObj.check2}} </el-col>
+    <el-col :span="5"> {{shallowReadObj.check3}} </el-col>
   </el-row>
   <el-row>
     <el-col :span="7"> shallowReadonly (Reactive) </el-col>
-    <el-col :span="5"> {{shallowReadRet.obj1}} </el-col>
-    <el-col :span="5"> {{shallowReadRet.obj2}} </el-col>
-    <el-col :span="5"> {{shallowReadRet.obj3}} </el-col>
+    <el-col :span="5"> {{shallowReadRet.check1}} </el-col>
+    <el-col :span="5"> {{shallowReadRet.check2}} </el-col>
+    <el-col :span="5"> {{shallowReadRet.check3}} </el-col>
   </el-row>
 
 </div>
