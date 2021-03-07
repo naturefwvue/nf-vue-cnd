@@ -8,19 +8,16 @@ import { person, personReactive } from './person.js'
  * 标记 不响应
 */
 export default {
-  name: 'reactive-reactive',
+  name: 'reactive-shallowReactive',
   template: `
     <div>
-      展示 reactive <br>
-      js 对象：{{person}} <br><br>
-      reactive 对象：{{personReactive}} <br><br>
-      reactive 的name属性：{{personReactive.name}} <br><br>
-      reactive 的contacts属性 的 QQ属性：{{personReactive.contacts.QQ}} <br><br>
-   
-      单独的 name：{{name}} （没有相应）<br><br>
-      单独的 contacts：{{contacts}} （有响应） <br><br>
-   
-      reactive 数组：{{reactiveArray}} <br><br>
+      展示 shallowReactive <br>
+      js 单层对象：{{object1}} <br><br>
+      reactive 单层对象：{{retObject1}} <br><br>
+      reactive 单独的name：{{name}} <br><br>
+      reactive 属性的name：{{retObject2.name}} <br><br>
+      reactive 深层对象QQ：{{retObject2.contacts.QQ}} <br><br>
+      reactive 数组：{{retArray}} <br><br>
 
       <el-button @click="update" type="primary">修改状态</el-button>
     </div>
@@ -30,10 +27,6 @@ export default {
     console.log('person', person)
     // 对象的 reactive 代理
     console.log('personReactive', personReactive)
-
-    // 获取属性 
-    const name = personReactive.name // 没有相应性
-    const contacts = personReactive.contacts // 有相应性
 
     // reactive 的数组
     const reactiveArray = reactive([
@@ -73,9 +66,6 @@ export default {
     return {
       person,
       personReactive,
-      name,
-      contacts,
-      reactiveArray,
       update
     }
   }

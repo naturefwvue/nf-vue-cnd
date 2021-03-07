@@ -6,7 +6,7 @@ const routes = [
     component: () => myImport('views/home')
   },
   {
-    path: '/reactive',
+    path: '/reactive', /** reactive 的导航页面 */
     name: 'reactive',
     component: () => myImport('views/reactive/index'),
     children: [
@@ -17,7 +17,7 @@ const routes = [
       },
       { // 用Proxy套个娃
         path: 'proxy',
-        name: 'ret-proxy-ret',
+        name: 'ret-proxy-reactive',
         component: () => myImport('views/reactive/proxy-reactive')
       },
       { // reactive 响应式 
@@ -25,12 +25,17 @@ const routes = [
         name: 'ret-reactive',
         component: () => myImport('views/reactive/reactive')
       }, 
+      { // shallowReactive 响应式 
+        path: 'shallowReactive',
+        name: 'ret-reactive-shallow',
+        component: () => myImport('views/reactive/reactive-shallow')
+      }, 
       { // readonly 只读
         path: 'readonly',
         name: 'ret-readonly',
         component: () => myImport('views/reactive/readonly')
       }, 
-      { // readonly 只读
+      { // shallowReadonly 只读
         path: 'shallowReadonly',
         name: 'ret-readonly-shallow',
         component: () => myImport('views/reactive/readonly-shallow')

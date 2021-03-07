@@ -2,16 +2,16 @@
   <el-row >
     <el-col :span="4">
       <router-link :to="{name:'ret-proxy'}">ES6的Proxy</router-link><br><br>
-      <router-link :to="{name:'ret-proxy-ret'}">用Proxy套个娃</router-link><br><br>
+      <router-link :to="{name:'ret-proxy-reactive'}">用Proxy套个娃</router-link><br><br>
       <router-link :to="{name:'ret-reactive'}">reactive</router-link><br><br>
-      <router-link :to="{name:'ret-toRaw'}">toRaw取原型</router-link><br><br>
+      <router-link :to="{name:'ret-reactive-shallow'}">shallowReactive</router-link><br><br>
       <router-link :to="{name:'ret-MarkRaw'}">MarkRaw</router-link><br><br>
       <router-link :to="{name:'ret-readonly'}">readonly</router-link><br><br>
       <router-link :to="{name:'ret-readonly-shallow'}">shallowReadonly</router-link><br><br>
+      <router-link :to="{name:'ret-toRaw'}">toRaw取原型</router-link><br><br>
       <router-link :to="{name:'ret-check'}">判断类型</router-link><br><br>
       <router-link :to="{name:'ret-let'}">响应性测试</router-link><br><br>
-      <router-link :to="{name:'ret-let'}">isReadonly</router-link><br><br>
-   
+    
     </el-col>
     <el-col :span="19">
       <router-view></router-view>
