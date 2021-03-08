@@ -69,6 +69,18 @@ const routes = [
     component: () => myImport('views/component')
   },
   {
+    path: '/look',
+    name: 'look',
+    component: () => myImport('views/look/index'),
+    children: [
+      { // es6的Proxy
+        path: 'watch',
+        name: 'look-watch',
+        component: () => myImport('views/look/watch')
+      }
+    ]
+  },
+  {
     path: '/store',
     name: 'store',
     component: () => myImport('views/store')
