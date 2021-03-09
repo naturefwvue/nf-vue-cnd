@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <link rel="icon" href="public/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Vue3的CompositionAPI的演示 </title>
+  <title> Vue3的 Composition API 的演示 </title>
   <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
   <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
   <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
@@ -21,7 +21,7 @@
         basrUrl = '/nf-vue-cnd/cnd/project-compositionapi/src/'
         break
     }
-    window.__ver = '?v=28'
+    window.__ver = '?v=30'
     window.__basrUrl = basrUrl
   </script>
 
@@ -73,7 +73,7 @@
 </head>
 <body>
   <div id="nav">
-    演示一下Vue3的CompositionAPI的各种用法。
+    演示一下 Vue3 的 Composition API 的各种用法。
     <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">查看源码</a>
     <br> 友情链接：
     <a href="https://naturefwvue.github.io/nf-vue-cnd/cnd/project-template/">CDN工程化的模板</a> | 
@@ -99,13 +99,6 @@
       </div>
     </div>
     <hr>
-    <div style="text-align: left;">
-      vuex状态演示<br>
-      $store.state ：{{$store.state}} <br>
-     
-      <el-button type="primary" @click="setCount">更改状态</el-button><br>
-    </div>
-    
   
   <script type="module">
     // 加载文件的话，有时候会卡，不知道为啥卡。。。

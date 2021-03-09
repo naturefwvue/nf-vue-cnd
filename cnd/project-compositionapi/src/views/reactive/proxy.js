@@ -74,6 +74,10 @@ export default {
     testProxy.name = '新的名字'
     console.log(testProxy.name)
 
+    // 伪造一个reactive，看看toRaw好用不。
+    const raw = Vue.toRaw(Vue.toRaw(myProxy({name: 'jyk',__v_isReactive: true})))
+    console.log('伪装成reactive 的raw11', raw)
+
     // 修改数据
     const update = () => {
       // retObject.name = 'reactive修改name'

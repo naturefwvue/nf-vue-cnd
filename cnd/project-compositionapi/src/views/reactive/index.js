@@ -1,9 +1,4 @@
 
-import mapForm from '/src/store/map-form.js'
-
-const watch = Vue.watch
-const reactive = Vue.reactive
-
 /**
  * reactive的导航页面
  * 1、定义reactive看效果
@@ -16,41 +11,9 @@ export default {
   template: '',
   setup () {
     const value = Vue.ref('数据绑定的演示')
-  
-    const { getFormState, loadData } = mapForm()
-    const formState = getFormState()
-
-    const model = reactive({
-      title: ''
-    })
-
-    watch(() => formState.id ,(v1, v2) => {
-      if (v1 === 0) {
-        // 添加状态，重置model
-        model.title = ''
-      } else {
-        // 修改或者只读状态，异步加载数据
-        const loading = ElementPlus.ElLoading.service({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.1)'
-        })
-        loadData().then((msg) => {
-          ElementPlus.ElMessage.success({
-            message: msg,
-            type: 'success'
-          })
-          loading.close()
-          Object.assign(model, formState.model)
-        })
-      }
-    })
 
     return {
-      value,
-      formState,
-      model
+      value
     }
   }
 }

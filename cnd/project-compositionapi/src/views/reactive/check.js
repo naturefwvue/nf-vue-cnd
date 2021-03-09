@@ -10,13 +10,15 @@ import {
   objectReactive, // reactive （object）
   // 浅层读写
   objectShallowReactive, // 浅层 代理
+  // 浅层 reactive 的读写
+  retShallowReactive, 
   // 浅层只读
   objectShallowReadonly, // 浅层只读 object
   reactiveShallowReadonly, // 浅层只读 reactive
   // 深层只读
   objectReadonly , // 深层只读 object
   reactiveReadonly // 深层只读 reactive
-} from './person.js'
+} from './person.js?v=1'
 
 const myProxy = (obj) => {
   const pp = new Proxy(obj, {
@@ -45,7 +47,7 @@ export default {
   template: ``,
   setup () {
 
-    const myProxyObject = myProxy({title:'222', __v_isReactive: false})
+    const myProxyObject = myProxy({title:'222', __v_isReactive: true})
     console.log('myProxyObject', myProxyObject)
     const myProxyReactive = myProxy(objectReactive)
     console.log('myProxyReactive', myProxyReactive)
@@ -58,7 +60,7 @@ export default {
       )
 
     // 取原型
-    const raw = toRaw()
+    const raw = toRaw(myProxyReactive)
     console.log('自己定义的Proxy取原型', raw)
 
     return {
@@ -85,15 +87,15 @@ export default {
       },
       // 浅层响应 参数：object
       shallowRetObj: {
-        check1: isProxy(objectShallowReadonly),
-        check2: isReactive(objectShallowReadonly),
-        check3: isReadonly(objectShallowReadonly)
-      },
-      // 浅层响应 参数：reactive
-      shallowRetRet: {
         check1: isProxy(objectShallowReactive),
         check2: isReactive(objectShallowReactive),
         check3: isReadonly(objectShallowReactive)
+      },
+      // 浅层响应 参数：reactive
+      shallowRetRet: {
+        check1: isProxy(retShallowReactive),
+        check2: isReactive(retShallowReactive),
+        check3: isReadonly(retShallowReactive)
       },
 
       // 深层只读，参数 object =======================

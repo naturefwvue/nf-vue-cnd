@@ -120,9 +120,11 @@ export default {
 
     // 定义一个拦截reactive的Proxy
     // 并且实现源头的监听
-    const myProxyReactive = myReactive(retObject, ((key, value) =>{
-      console.log(`ret外部获得通知：${key}:${value}`)
-    }))
+    const myProxyReactive = myReactive(retObject,
+      ((key, value) =>{
+        console.log(`ret外部获得通知：${key}:${value}`)
+      })
+    )
     console.log('myProxyReactive', myProxyReactive)
 
     // 任意位置的监听

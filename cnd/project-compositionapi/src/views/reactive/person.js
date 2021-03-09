@@ -45,6 +45,11 @@ export const objectShallowReactive = shallowReactive({
   }
 })
 
+/**
+ * reactive 的 shallowReactive 响应式代理
+ */
+export const retShallowReactive = shallowReactive(objectReactive)
+
 // ================================================
 
 /**
