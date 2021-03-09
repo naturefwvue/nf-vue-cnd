@@ -20,13 +20,7 @@ export default {
         老规矩：{{hello}}<br>
         <el-button type="primary" @click="clickMe">快点我</el-button><br>
         <br>
-        这里是一种CND的开发方式<br>
-        vue全家桶和UI库用 CND方式 加载。<br>
-        js代码用 import 方式加载。<br>
-        目录结构参考了vue-cli建立的项目。<br>
-        支持组件、路由、状态管理等功能。<br>
-        不用webpack、npm等，建立网站就可以用。<br><br>
-        状态计数：{{$store.state.count}}
+        这里演示 Vue3 的 响应式 和 composition API 的各种用法
       </div>
   `,
   setup() {

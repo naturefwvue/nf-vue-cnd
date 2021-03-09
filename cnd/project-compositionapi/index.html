@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <link rel="icon" href="public/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Vue3的 Composition API 的演示 </title>
+  <title> Vue3的 响应式 和 Composition API 的演示 </title>
   <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
   <script src="https://unpkg.com/vue-router@4.0.3/dist/vue-router.global.js"></script>
   <script src="https://unpkg.com/vuex@4.0.0-rc.2/dist/vuex.global.js"></script>
@@ -13,7 +13,7 @@
   <!--axios-->
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script type="text/javascript">
-    // 假定 src在网站根目录
+    // 假定 src 在网站根目录
     let basrUrl = '/src/' 
     // 判断所处网站，确定基础url
     switch (window.location.origin) {
@@ -21,7 +21,7 @@
         basrUrl = '/nf-vue-cnd/cnd/project-compositionapi/src/'
         break
     }
-    window.__ver = '?v=30'
+    window.__ver = '?v=1'
     window.__basrUrl = basrUrl
   </script>
 
